@@ -95,12 +95,13 @@ const seed = ({ topicData, userData, articleData, commentData }) => {
     });
     const articlesInsertStr = format(
       `INSERT INTO articles (title, topic, author, body, created_at, votes, article_img_url)
-      VALUES %L`,
+      VALUES %L RETURNING *`,
       nestedArrOfArticles
     );
     return db.query(articlesInsertStr);
   })
-  .then(() => {
+  .then(({ rows }) => {
+    console.log(rows)
     const nestedArrOfComments = commentData.map((comment) => {
       return [
         convertTimestampToDate(comment).article_id,

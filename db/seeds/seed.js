@@ -6,7 +6,7 @@ const {
   commentData,
 } = require("../data/development-data/index.js");
 const db = require("../connection");
-const { convertTimestampToDate } = require("./utils.js");
+const { convertTimestampToDate, createLookupObj } = require("./utils.js");
 
 const seed = ({ topicData, userData, articleData, commentData }) => {
   return db.query(`
@@ -101,10 +101,14 @@ const seed = ({ topicData, userData, articleData, commentData }) => {
     return db.query(articlesInsertStr);
   })
   .then(({ rows }) => {
-    console.log(rows)
+    const articleLookup = createLookupObj(rows, "title", "article_id")
+    // console.log(articleLookup, '<<<< object of articles and their IDs')
+    console.log(articleLookup['Making sense of Redux'], '<<<< should be an ID number for the article')
+    // console.log(commentData[1], '<<<< what an individual comment object looks like')
     const nestedArrOfComments = commentData.map((comment) => {
       return [
-        convertTimestampToDate(comment).article_id,
+        articleLookup[comment.article_title],
+        // convertTimestampToDate(comment).article_id,
         convertTimestampToDate(comment).body,
         convertTimestampToDate(comment).votes,
         convertTimestampToDate(comment).author,

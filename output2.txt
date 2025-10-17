@@ -1,0 +1,5 @@
+
+> be-nc-news@1.0.0 queries-dev
+> node ./db/run-queries.js
+
+Connected to nc_news

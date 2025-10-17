@@ -102,13 +102,9 @@ const seed = ({ topicData, userData, articleData, commentData }) => {
   })
   .then(({ rows }) => {
     const articleLookup = createLookupObj(rows, "title", "article_id")
-    // console.log(articleLookup, '<<<< object of articles and their IDs')
-    console.log(articleLookup['Making sense of Redux'], '<<<< should be an ID number for the article')
-    // console.log(commentData[1], '<<<< what an individual comment object looks like')
     const nestedArrOfComments = commentData.map((comment) => {
       return [
         articleLookup[comment.article_title],
-        // convertTimestampToDate(comment).article_id,
         convertTimestampToDate(comment).body,
         convertTimestampToDate(comment).votes,
         convertTimestampToDate(comment).author,

@@ -1,5 +1,6 @@
 const {
-  convertTimestampToDate
+  convertTimestampToDate,
+  createLookupObj,
 } = require("../db/seeds/utils");
 
 describe("convertTimestampToDate", () => {
@@ -38,3 +39,35 @@ describe("convertTimestampToDate", () => {
   });
 });
 
+describe("createLookupObj", () => {
+  test("returns an empty object when passed an empty array", () => {
+    const testArray = [];
+
+    const output = createLookupObj(testArray);
+
+    expect(output).toEqual({});
+  });
+  test("returns an object containing a single property, with the key and value matching the respective strings, when passed two strings alongside an array containing a single object", () => {
+    const testArray = [{ name: "Jamie", age: 21, favFood: "steak" }];
+    const testKey = "name";
+    const testValue = "favFood";
+
+    const output = createLookupObj(testArray, testKey, testValue);
+
+    expect(output).toEqual({ Jamie: "steak" });
+  });
+  xtest("returns an object containing multiple properties, with the keys and values matching the respective strings, when passed two strings alongside an array containing multiple objects", () => {
+    const testArray = [
+      { name: "Jamie", age: 21, favFood: "steak" },
+      { name: "Amelia", age: 12, favFood: "McDonalds's" },
+      { name: "Nicola", age: 44, favFood: "shoestring fries" },
+    ];
+    const testKey = "age";
+    const testValue = "name";
+
+    const output = createLookupObj(testArray, testKey, testValue);
+
+    expect(output).toEqual({ 21: "Jamie", 12: "Amelia", 44: "Nicola" });
+  });
+  xtest("tests that the array passed is not mutated when the function is invoked", () => {});
+});

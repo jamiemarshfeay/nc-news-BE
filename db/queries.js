@@ -1,10 +1,3 @@
-const format = require("pg-format");
-const {
-  topicData,
-  userData,
-  articleData,
-  commentData,
-} = require("./data/development-data/index.js");
 const db = require("./connection");
 
 const queryTheDatabase = () => {
@@ -14,12 +7,14 @@ const queryTheDatabase = () => {
     `)
     .then(() => {
       return db.query(`
-        SELECT * FROM articles
+        SELECT articles.title
+        FROM articles
         WHERE articles.topic = 'coding';
       `);
     }).then(() => {
       return db.query(`
-        SELECT * FROM comments
+        SELECT comments.comment_id
+        FROM comments
         WHERE comments.votes < 0;
       `);
     }).then(() => {
@@ -28,11 +23,18 @@ const queryTheDatabase = () => {
       `);
     }).then(() => {
       return db.query(`
-        SELECT users.username, articles.article_title
+        SELECT users.username, articles.title
         FROM users
-        LEFT JOIN articles ON articles_author = users.username;
+        LEFT JOIN articles ON articles.author = users.username
+        WHERE users.username = 'grumpy19';
       `);
-    })
+    }).then(() => {
+      return db.query(`
+        SELECT comments.comment_id
+        FROM comments
+        WHERE comments.votes > 10;
+      `);
+    });
 };
 
 module.exports = queryTheDatabase;

@@ -1,8 +1,8 @@
 const db = require("../db/connection");
 
 function readArticles() {
-    return db.query(
-        `SELECT 
+  return db.query(
+      `SELECT 
             articles.author,
             articles.title,
             articles.article_id,
@@ -16,16 +16,20 @@ function readArticles() {
             ON articles.article_id = comments.article_id
         GROUP BY articles.article_id
         ORDER BY articles.created_at DESC;`
-    ).then(({ rows }) => {
-        return rows;
+    )
+    .then(({ rows }) => {
+      return rows;
     });
 }
 
-function readArticleById() {
-    return db.query(
-        `SELECT * FROM articles;`
-    ).then(({ rows }) => {
-        return rows;
+function readArticleById(id) {
+  return db.query(
+      `SELECT * FROM articles
+        WHERE article_id = $1;`,
+      [id]
+    )
+    .then(({ rows }) => {
+      return rows[0];
     });
 }
 

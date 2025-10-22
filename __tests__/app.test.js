@@ -125,7 +125,7 @@ describe("GET /api/users", () => {
   });
 });
 
-xdescribe("GET /api/articles/:article_id", () => {
+describe("GET /api/articles/:article_id", () => {
   xtest("responds with a 404 status when passed a non-existent endpoint", () => {
     return request(app)
       .get("/api/notARoute")

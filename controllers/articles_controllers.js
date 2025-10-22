@@ -10,7 +10,8 @@ const getArticles = (req, res) => {
 };
 
 const getArticleById = (req, res) => {
-  readArticleById().then((article) => {
+  const { article_id } = req.params;
+  readArticleById(article_id).then((article) => {
     res.status(200).send({ article: article });
   });
 };

@@ -8,4 +8,12 @@ function readTopics() {
     });
 }
 
-module.exports = { readTopics };
+function readArticles() {
+    return db
+    .query(`SELECT * FROM articles`)
+    .then(({ rows }) => {
+        return rows;
+    });
+}
+
+module.exports = { readTopics, readArticles };

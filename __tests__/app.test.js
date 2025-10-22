@@ -21,8 +21,62 @@ describe("GET /api/topics", () => {
         const topics = body.topics;
         expect(topics);
         topics.forEach((topic) => {
-            expect(topic.slug);
-            expect(topic.description);
+            expect(typeof topic.slug).toBe("string");
+            expect(typeof topic.description).toBe("string");
+        });
+    });
+  });
+});
+
+describe("GET /api/articles", () => {
+  test("responds with a success status when connected to the api and accesses the articles", () => {
+    return request(app)
+    .get("/api/articles")
+    .expect(200)
+    .then(({ body }) => {
+        const articles = body.articles;
+        expect(articles);
+        articles.forEach((article) => {
+            expect(typeof article.author).toBe("string");
+            expect(typeof article.title).toBe("string");
+            expect(typeof article.article_id).toBe("number");
+            expect(typeof article.topic).toBe("string");
+            expect(typeof article.created_at).toBe("string");
+            expect(typeof article.votes).toBe("number");
+            expect(typeof article.article_img_url).toBe("string");
+        });
+    });
+  });
+  xtest("tests that each article has a comment count derived from the total number of comments with its respective ID", () => {
+    return request(app)
+    .get("/api/articles")
+    .expect(200)
+    .then(({ body }) => {
+        const articles = body.articles;
+        articles.forEach((article) => {
+            expect(typeof article.comment_count).toBe("number");
+        });
+    });
+  });
+  xtest("tests the articles are returned in descending date order", () => {
+    return request(app)
+    .get("/api/articles")
+    .expect(200)
+    .then(({ body }) => {
+        const articles = body.articles;
+        for (let i = 0; i < articles.length; i++) {
+            expect(articles[i].created_at <= articles[i - 1].created_at).toBe(true);
+        }
+    });
+  });
+  xtest("tests that there is no body property present on the articles", () => {
+    return request(app)
+    .get("/api/articles")
+    .expect(200)
+    .then(({ body }) => {
+        const articles = body.articles;
+        articles.forEach((article) => {
+            expect(!article.body);
         });
     });
   });

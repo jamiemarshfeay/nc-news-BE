@@ -58,7 +58,7 @@ describe("GET /api/articles", () => {
         });
     });
   });
-  xtest("tests the articles are returned in descending date order", () => {
+  test("tests the articles are returned in descending date order", () => {
     return request(app)
     .get("/api/articles")
     .expect(200)

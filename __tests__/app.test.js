@@ -98,3 +98,30 @@ describe("GET /api/users", () => {
     });
   });
 });
+
+xdescribe("GET /api/articles/:article_id", () => {
+  test("responds with a 200 status and accesses the article when passed a valid ID", () => {
+    return request(app)
+    .get("/api/articles/1")
+    .expect(200)
+    .then(({ body }) => {
+        const article = body.article;
+        expect(article.article_id).toBe(1);
+        expect(typeof article.author).toBe("string");
+        expect(typeof article.title).toBe("string");
+        expect(typeof article.body).toBe("string");
+        expect(typeof article.topic).toBe("string");
+        expect(typeof article.created_at).toBe("string");
+        expect(typeof article.votes).toBe("number");
+        expect(typeof article.article_img_url).toBe("string");
+    });
+  });
+  xtest("responds with a 404 status when passed an invalid ID", () => {
+    return request(app)
+    .get("/api/articles/100")
+    .expect(404)
+    .then(({ body }) => {
+        expect(body.msg).toBe("Invalid article ID");
+    });
+  });
+});

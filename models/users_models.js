@@ -1,11 +1,11 @@
 const db = require("../db/connection");
 
-function readTopics() {
+function readUsers() {
     return db.query(
-        `SELECT * FROM topics;`
+        `SELECT * FROM users;`
     ).then(({ rows }) => {
         return rows;
     });
 }
 
-module.exports = { readTopics };
+module.exports = { readUsers };

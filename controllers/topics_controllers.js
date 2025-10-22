@@ -1,8 +1,4 @@
-const {
-  readTopics,
-  readArticles,
-  readUsers,
-} = require("../models/topics_models");
+const { readTopics } = require("../models/topics_models");
 
 const getTopics = (req, res) => {
   readTopics().then((topics) => {
@@ -10,16 +6,4 @@ const getTopics = (req, res) => {
   });
 };
 
-const getArticles = (req, res) => {
-  readArticles().then((articles) => {
-    res.status(200).send({ articles: articles });
-  });
-};
-
-const getUsers = (req, res) => {
-  readUsers().then((users) => {
-    res.status(200).send({ users: users });
-  });
-};
-
-module.exports = { getTopics, getArticles, getUsers };
+module.exports = { getTopics };

@@ -47,7 +47,7 @@ describe("GET /api/articles", () => {
         });
     });
   });
-  xtest("tests that each article has a comment count derived from the total number of comments with its respective ID", () => {
+  test("tests that each article has a comment count derived from the total number of comments with its respective ID", () => {
     return request(app)
     .get("/api/articles")
     .expect(200)
@@ -64,7 +64,7 @@ describe("GET /api/articles", () => {
     .expect(200)
     .then(({ body }) => {
         const articles = body.articles;
-        for (let i = 0; i < articles.length; i++) {
+        for (let i = 1; i < articles.length; i++) {
             expect(articles[i].created_at <= articles[i - 1].created_at).toBe(true);
         }
     });

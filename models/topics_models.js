@@ -18,7 +18,6 @@ function readArticles() {
             articles.created_at,
             articles.votes,
             articles.article_img_url,
-            articles.body,
             CAST(COUNT(comments.comment_id) AS INT) AS comment_count
         FROM articles
         LEFT JOIN comments

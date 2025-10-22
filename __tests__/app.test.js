@@ -69,14 +69,14 @@ describe("GET /api/articles", () => {
         }
     });
   });
-  xtest("tests that there is no body property present on the articles", () => {
+  test("tests that there is no body property present on the articles", () => {
     return request(app)
     .get("/api/articles")
     .expect(200)
     .then(({ body }) => {
         const articles = body.articles;
         articles.forEach((article) => {
-            expect(!article.body);
+            expect(article.body).toBe(undefined);
         });
     });
   });

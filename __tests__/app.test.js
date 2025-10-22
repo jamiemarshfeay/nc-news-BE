@@ -81,3 +81,20 @@ describe("GET /api/articles", () => {
     });
   });
 });
+
+describe("GET /api/users", () => {
+  test("responds with a success status when connected to the api and accesses the users", () => {
+    return request(app)
+    .get("/api/users")
+    .expect(200)
+    .then(({ body }) => {
+        const users = body.users;
+        expect(users);
+        users.forEach((user) => {
+            expect(typeof user.username).toBe("string");
+            expect(typeof user.name).toBe("string");
+            expect(typeof user.avatar_url).toBe("string");
+        });
+    });
+  });
+});

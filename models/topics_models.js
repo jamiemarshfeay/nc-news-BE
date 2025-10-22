@@ -29,4 +29,12 @@ function readArticles() {
     });
 }
 
-module.exports = { readTopics, readArticles };
+function readUsers() {
+    return db.query(
+        `SELECT * FROM users;`
+    ).then(({ rows }) => {
+        return rows;
+    });
+}
+
+module.exports = { readTopics, readArticles, readUsers };

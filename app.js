@@ -27,8 +27,8 @@ app.use(handleNonPathErrors);
 
 app.use(handlePostgresErrors);
 
-// app.use(handleCustomErrors);
+app.use(handleCustomErrors);
 
-// app.use(handleServerErrors);
+app.use(handleServerErrors);
 
 module.exports = app;

@@ -253,6 +253,7 @@ describe("/api/articles", () => {
         .expect(200)
         .then(({ body }) => {
           const comment = body.comment;
+          expect(comment.article_id).toBe(5);
           expect(comment.username).toBe(testBody.username);
           expect(comment.body).toBe(testBody.body);
         });

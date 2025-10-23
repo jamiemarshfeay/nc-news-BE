@@ -2,6 +2,7 @@ const {
   readArticles,
   readArticleById,
   readCommentByArticleId,
+  insertCommentByArticleId,
 } = require("../models/articles_models");
 
 const getArticles = (req, res) => {
@@ -24,4 +25,19 @@ const getCommentByArticleId = (req, res) => {
   });
 };
 
-module.exports = { getArticles, getArticleById, getCommentByArticleId };
+const postCommentByArticleId = (req, res) => {
+  const { article_id } = req.params;
+  const { username, body } = req.body;
+  return insertCommentByArticleId(username, body, article_id).then(
+    (comment) => {
+      res.status(200).send({ comment: comment });
+    }
+  );
+};
+
+module.exports = {
+  getArticles,
+  getArticleById,
+  getCommentByArticleId,
+  postCommentByArticleId,
+};

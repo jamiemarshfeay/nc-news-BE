@@ -37,7 +37,8 @@ describe("GET /api/topics", () => {
       .expect(200)
       .then(({ body }) => {
         const topics = body.topics;
-        expect(topics);
+        expect(topics).toBeInstanceOf(Array);
+        expect(topics.length).toBe(3);
         topics.forEach((topic) => {
           expect(typeof topic.slug).toBe("string");
           expect(typeof topic.description).toBe("string");
@@ -53,7 +54,8 @@ describe("GET /api/articles", () => {
       .expect(200)
       .then(({ body }) => {
         const articles = body.articles;
-        expect(articles);
+        expect(articles).toBeInstanceOf(Array);
+        expect(articles.length).toBe(13);
         articles.forEach((article) => {
           expect(typeof article.author).toBe("string");
           expect(typeof article.title).toBe("string");
@@ -109,7 +111,8 @@ describe("GET /api/users", () => {
       .expect(200)
       .then(({ body }) => {
         const users = body.users;
-        expect(users);
+        expect(users).toBeInstanceOf(Array);
+        expect(users.length).toBe(4);
         users.forEach((user) => {
           expect(typeof user.username).toBe("string");
           expect(typeof user.name).toBe("string");
@@ -119,8 +122,8 @@ describe("GET /api/users", () => {
   });
 });
 
-describe.only("GET /api/articles/:article_id", () => {
-  xtest("responds with a 400 status when passed a completely invalid ID", () => {
+xdescribe("GET /api/articles/:article_id", () => {
+  test("responds with a 400 status when passed a completely invalid ID", () => {
     return request(app)
       .get("/api/articles/notAnId")
       .expect(400)
@@ -143,12 +146,12 @@ describe.only("GET /api/articles/:article_id", () => {
       .then(({ body }) => {
         const article = body.article;
         expect(article.article_id).toBe(1);
-        expect(typeof article.author).toBe("string");
-        expect(typeof article.title).toBe("string");
-        expect(typeof article.body).toBe("string");
-        expect(typeof article.topic).toBe("string");
+        expect(article.author).toBe("butter_bridge");
+        expect(article.title).toBe("Living in the shadow of a great man");
+        expect(article.body).toBe("I find this existence challenging");
+        expect(article.topic).toBe("mitch");
+        expect(article.votes).toBe(100);
         expect(typeof article.created_at).toBe("string");
-        expect(typeof article.votes).toBe("number");
         expect(typeof article.article_img_url).toBe("string");
       });
   });

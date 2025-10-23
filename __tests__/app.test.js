@@ -175,12 +175,12 @@ describe("/api/articles", () => {
           });
         });
     });
-    xtest("tests the comments are returned in descending date order", () => {
+    test("tests the comments are returned in descending date order", () => {
       return request(app)
-        .get("/api/articles5/comments")
+        .get("/api/articles/5/comments")
         .expect(200)
         .then(({ body }) => {
-          const comments = body.articles.comments;
+          const comments = body.comments;
           for (let i = 1; i < comments.length; i++) {
             expect(comments[i].created_at <= comments[i - 1].created_at).toBe(
               true

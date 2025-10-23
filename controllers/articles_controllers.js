@@ -1,6 +1,7 @@
 const {
   readArticles,
   readArticleById,
+  readCommentByArticleId,
 } = require("../models/articles_models");
 
 const getArticles = (req, res) => {
@@ -16,4 +17,11 @@ const getArticleById = (req, res) => {
   });
 };
 
-module.exports = { getArticles, getArticleById };
+const getCommentByArticleId = (req, res) => {
+  const { article_id } = req.params;
+  return readCommentByArticleId(article_id).then((comments) => {
+    res.status(200).send({ comments: comments });
+  });
+};
+
+module.exports = { getArticles, getArticleById, getCommentByArticleId };

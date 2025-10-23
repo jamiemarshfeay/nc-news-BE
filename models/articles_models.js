@@ -36,4 +36,20 @@ function readArticleById(id) {
     });
 }
 
-module.exports = { readArticles, readArticleById };
+function readCommentByArticleId(id) {
+  return db.query(
+      `SELECT * FROM comments
+      LEFT JOIN articles
+        ON comments.article_id = articles.article_id
+      WHERE article_id = $1;`,
+      [id]
+    )
+    .then(({ rows }) => {
+      if (rows.length === 0) {
+        return Promise.reject({ status: 404, msg: "Article not found" });
+      }
+      return rows;
+    });
+}
+
+module.exports = { readArticles, readArticleById, readCommentByArticleId };

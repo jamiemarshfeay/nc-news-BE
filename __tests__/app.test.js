@@ -141,7 +141,7 @@ describe("/api/articles", () => {
     });
   });
   describe("GET /:article_id/comments", () => {
-    xtest("responds with a 400 status when passed a completely invalid ID before `/comments`", () => {
+    test("responds with a 400 status when passed a completely invalid ID before `/comments`", () => {
       return request(app)
         .get("/api/articles/stillNotAnId/comments")
         .expect(400)
@@ -149,7 +149,7 @@ describe("/api/articles", () => {
           expect(body.msg).toBe("You have made a bad request");
         });
     });
-    xtest("responds with a 404 status when passed a valid possible ID before `/comments`, but one that does not exist", () => {
+    test("responds with a 404 status when passed a valid possible ID before `/comments`, but one that does not exist", () => {
       return request(app)
         .get("/api/articles/99/comments")
         .expect(404)
@@ -163,6 +163,17 @@ describe("/api/articles", () => {
         .expect(200)
         .then(({ body }) => {
           console.log(body)
+          // const comments = body.articles.comments;
+          // expect(comments).toBeInstanceOf(Array);
+          // expect(comments.length).toBe();
+          // comments.forEach((comment) => {
+          //   expect(typeof comment.comment_id).toBe("number");
+          //   expect(typeof comment.votes).toBe("number");
+          //   expect(typeof comment.created_at).toBe("string");
+          //   expect(typeof comment.author).toBe("string");
+          //   expect(typeof comment.body).toBe("string");
+          //   expect(typeof comment.article_id).toBe("number");
+          // });
         });
     });
     xtest("tests the comments are returned in descending date order", () => {

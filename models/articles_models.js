@@ -41,7 +41,7 @@ function readCommentByArticleId(id) {
       `SELECT * FROM comments
       LEFT JOIN articles
         ON comments.article_id = articles.article_id
-      WHERE article_id = $1;`,
+      WHERE articles.article_id = $1;`,
       [id]
     )
     .then(({ rows }) => {

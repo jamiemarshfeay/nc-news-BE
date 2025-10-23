@@ -157,23 +157,22 @@ describe("/api/articles", () => {
           expect(body.msg).toBe("Article not found");
         });
     });
-    xtest("responds with 200 status and all comments from the particular article when passed a valid ID before `/comments`", () => {
+    test("responds with 200 status and all comments from the particular article when passed a valid ID before `/comments`", () => {
       return request(app)
         .get("/api/articles/5/comments")
         .expect(200)
         .then(({ body }) => {
-          console.log(body)
-          // const comments = body.articles.comments;
-          // expect(comments).toBeInstanceOf(Array);
-          // expect(comments.length).toBe();
-          // comments.forEach((comment) => {
-          //   expect(typeof comment.comment_id).toBe("number");
-          //   expect(typeof comment.votes).toBe("number");
-          //   expect(typeof comment.created_at).toBe("string");
-          //   expect(typeof comment.author).toBe("string");
-          //   expect(typeof comment.body).toBe("string");
-          //   expect(typeof comment.article_id).toBe("number");
-          // });
+          const comments = body.comments;
+          expect(comments).toBeInstanceOf(Array);
+          expect(comments.length).toBe(2);
+          comments.forEach((comment) => {
+            expect(comment.article_id).toBe(5);
+            expect(typeof comment.comment_id).toBe("number");
+            expect(typeof comment.votes).toBe("number");
+            expect(typeof comment.created_at).toBe("string");
+            expect(typeof comment.author).toBe("string");
+            expect(typeof comment.body).toBe("string");
+          });
         });
     });
     xtest("tests the comments are returned in descending date order", () => {

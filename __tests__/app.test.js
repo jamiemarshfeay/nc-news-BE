@@ -189,6 +189,75 @@ describe("/api/articles", () => {
         });
     });
   });
+  xdescribe("POST /:article_id/comments", () => {
+    xtest("responds with a 400 status when passed a completely invalid ID before `/comments`", () => {
+      const testBody = {
+        username: "space_cowboy",
+        body: "This is the return of the space cowboy",
+      };
+      return request(app)
+        .post("/api/articles/definitelyNotAnId/comments")
+        .send(testBody)
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("You have made a bad request");
+        });
+    });
+    xtest("responds with a 404 status when passed a valid possible ID before `/comments`, but one that does not exist", () => {
+      const testBody = {
+        username: "space_cowboy",
+        body: "This is the return of the space cowboy",
+      };
+      return request(app)
+        .post("/api/articles/58/comments")
+        .send(testBody)
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Article not found");
+        });
+    });
+    xtest("responds with a 400 status when passed a body that does not contain the correct fields", () => {
+      const testBody = {
+        birthstone: "diamond",
+        faveFood: "steak",
+      };
+      return request(app)
+        .post("/api/articles/5/comments")
+        .send(testBody)
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("You have made a bad request");
+        });
+    });
+    xtest("responds with a 400 status when passed a body that contains valid fields but the value of one, or multiple, of the fields is invalid", () => {
+      const testBody = {
+        username: 10,
+        body: true,
+      };
+      return request(app)
+        .post("/api/articles/5/comments")
+        .send(testBody)
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("You have made a bad request");
+        });
+    });
+    xtest("responds with a 200 status and returns the new comment object, when passed a valid ID with a valid body", () => {
+      const testBody = {
+        username: "space_cowboy",
+        body: "This is the return of the space cowboy",
+      };
+      return request(app)
+        .post("/api/articles/5/comments")
+        .send(testBody)
+        .expect(200)
+        .then(({ body }) => {
+          const comment = body.comment;
+          expect(comment.username).toBe(testBody.username);
+          expect(comment.body).toBe(testBody.body);
+        });
+    });
+  });
 });
 
 describe("/api/users", () => {

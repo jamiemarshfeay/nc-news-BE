@@ -12,8 +12,8 @@ afterAll(() => {
   return db.end();
 });
 
-describe.only("ALL: *", () => {
-  test("responds with a 404 status when a request is made to an undefined / non-existent endpoint", () => {
+describe("ALL: *", () => {
+  test("responds with a 404 status when a request is made to an undefined / non-existent endpoint `/notAnEndpoint`", () => {
     return request(app)
       .get("/notAnEndpoint")
       .expect(404)
@@ -21,7 +21,7 @@ describe.only("ALL: *", () => {
         expect(body.msg).toBe("Path not found");
       });
   });
-  test("responds with a 404 status when a request is made to an undefined / non-existent endpoint", () => {
+  test("responds with a 404 status when a request is made to an undefined / non-existent endpoint `/api/notAnEndpoint`", () => {
     return request(app)
       .get("/api/notAnEndpoint")
       .then(({ body }) => {
@@ -119,7 +119,7 @@ describe("GET /api/users", () => {
   });
 });
 
-xdescribe("GET /api/articles/:article_id", () => {
+describe.only("GET /api/articles/:article_id", () => {
   xtest("responds with a 400 status when passed a completely invalid ID", () => {
     return request(app)
       .get("/api/articles/notAnId")
@@ -133,7 +133,7 @@ xdescribe("GET /api/articles/:article_id", () => {
       .get("/api/articles/100")
       .expect(404)
       .then(({ body }) => {
-        expect(body.msg).toBe("Not found");
+        expect(body.msg).toBe("Article not found");
       });
   });
   xtest("responds with a 200 status and accesses the article when passed a valid ID", () => {

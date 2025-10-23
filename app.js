@@ -25,7 +25,7 @@ app.get("/api/articles/:article_id", getArticleById);
 
 app.use(handleNonPathErrors);
 
-// app.use(handlePostgresErrors);
+app.use(handlePostgresErrors);
 
 // app.use(handleCustomErrors);
 

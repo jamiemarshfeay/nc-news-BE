@@ -23,7 +23,7 @@ app.get("/api/users", getUsers);
 
 app.get("/api/articles/:article_id", getArticleById);
 
-// app.use(handleNonPathErrors);
+app.use(handleNonPathErrors);
 
 // app.use(handlePostgresErrors);
 

@@ -1,8 +1,3 @@
-const {
-    readArticles,
-    readArticleById,
-} = require("../models/articles_models");
-
 const handleNonPathErrors = (req, res) => {
   res.status(404).send({ msg: "Path not found" });
 };

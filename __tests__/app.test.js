@@ -12,20 +12,21 @@ afterAll(() => {
   return db.end();
 });
 
-xdescribe("ALL: *", () => {
+describe.only("ALL: *", () => {
   test("responds with a 404 status when a request is made to an undefined / non-existent endpoint", () => {
-    const request1 = request(app)
+    return request(app)
       .get("/notAnEndpoint")
       .expect(404)
       .then(({ body }) => {
         expect(body.msg).toBe("Path not found");
       });
-    const request2 = request(app)
+  });
+  test("responds with a 404 status when a request is made to an undefined / non-existent endpoint", () => {
+    return request(app)
       .get("/api/notAnEndpoint")
       .then(({ body }) => {
         expect(body.msg).toBe("Path not found");
       });
-    return [request1, request2];
   });
 });
 

@@ -12,15 +12,22 @@ afterAll(() => {
   return db.end();
 });
 
-describe("GET /api/topics", () => {
-  xtest("responds with a 404 status when passed a non-existent endpoint", () => {
+xdescribe("ALL: *", () => {
+  test("responds with a 404 status when a request is made to an undefined / non-existent endpoint", () => {
     return request(app)
-      .get("/api/notARoute")
+      .get("/notAnEndpoint")
       .expect(404)
       .then(({ body }) => {
-        expect(body.msg).toBe("Route not found");
+        expect(body.msg).toBe("Path not found");
+      })
+      .get("/api/notAnEndpoint")
+      .then(({ body }) => {
+        expect(body.msg).toBe("Path not found");
       });
   });
+});
+
+describe("GET /api/topics", () => {
   test("responds with a success status when connected to the api and accesses the topics", () => {
     return request(app)
       .get("/api/topics")
@@ -37,14 +44,6 @@ describe("GET /api/topics", () => {
 });
 
 describe("GET /api/articles", () => {
-  xtest("responds with a 404 status when passed a non-existent endpoint", () => {
-    return request(app)
-      .get("/api/notARoute")
-      .expect(404)
-      .then(({ body }) => {
-        expect(body.msg).toBe("Route not found");
-      });
-  });
   test("responds with a success status when connected to the api and accesses the articles", () => {
     return request(app)
       .get("/api/articles")
@@ -101,14 +100,6 @@ describe("GET /api/articles", () => {
 });
 
 describe("GET /api/users", () => {
-  xtest("responds with a 404 status when passed a non-existent endpoint", () => {
-    return request(app)
-      .get("/api/notARoute")
-      .expect(404)
-      .then(({ body }) => {
-        expect(body.msg).toBe("Route not found");
-      });
-  });
   test("responds with a success status when connected to the api and accesses the users", () => {
     return request(app)
       .get("/api/users")
@@ -125,21 +116,13 @@ describe("GET /api/users", () => {
   });
 });
 
-describe("GET /api/articles/:article_id", () => {
-  xtest("responds with a 404 status when passed a non-existent endpoint", () => {
-    return request(app)
-      .get("/api/notARoute")
-      .expect(404)
-      .then(({ body }) => {
-        expect(body.msg).toBe("Route not found");
-      });
-  });
+xdescribe("GET /api/articles/:article_id", () => {
   xtest("responds with a 400 status when passed a completely invalid ID", () => {
     return request(app)
       .get("/api/articles/notAnId")
       .expect(400)
       .then(({ body }) => {
-        expect(body.msg).toBe("Invalid article ID");
+        expect(body.msg).toBe("You have made a bad request");
       });
   });
   xtest("responds with a 404 status when passed a valid possible ID, but one that does not exist", () => {
@@ -147,7 +130,7 @@ describe("GET /api/articles/:article_id", () => {
       .get("/api/articles/100")
       .expect(404)
       .then(({ body }) => {
-        expect(body.msg).toBe("Article ID does not exist");
+        expect(body.msg).toBe("Not found");
       });
   });
   xtest("responds with a 200 status and accesses the article when passed a valid ID", () => {

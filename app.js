@@ -4,6 +4,7 @@ const { getTopics } = require("./controllers/topics_controllers.js");
 const {
   getArticles,
   getArticleById,
+  // getCommentByArticleId,
 } = require("./controllers/articles_controllers.js");
 const { getUsers } = require("./controllers/users_controllers.js");
 const {
@@ -22,6 +23,8 @@ app.get("/api/articles", getArticles);
 app.get("/api/users", getUsers);
 
 app.get("/api/articles/:article_id", getArticleById);
+
+// app.get("/api/articles/:article_id/comments", getCommentByArticleId);
 
 app.use(handleNonPathErrors);
 

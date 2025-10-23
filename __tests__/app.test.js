@@ -140,6 +140,45 @@ describe("/api/articles", () => {
         });
     });
   });
+  xdescribe("GET /:article_id/comments", () => {
+    test("responds with a 400 status when passed a completely invalid ID before `/comments`", () => {
+      return request(app)
+        .get("/api/articles/stillNotAnId/comments")
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("You have made a bad request");
+        });
+    });
+    test("responds with a 404 status when passed a valid possible ID before `/comments`, but one that does not exist", () => {
+      return request(app)
+        .get("/api/articles/99/comments")
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Article not found");
+        });
+    });
+    test("responds with 200 status and all comments from the particular article when passed a valid ID before `/comments`", () => {
+      return request(app)
+        .get("/api/articles/5/comments")
+        .expect(200)
+        .then(({ body }) => {
+          console.log(body)
+        });
+    });
+    test("tests the comments are returned in descending date order", () => {
+      return request(app)
+        .get("/api/articles5/comments")
+        .expect(200)
+        .then(({ body }) => {
+          const comments = body.articles.comments;
+          for (let i = 1; i < comments.length; i++) {
+            expect(comments[i].created_at <= comments[i - 1].created_at).toBe(
+              true
+            );
+          }
+        });
+    });
+  });
 });
 
 describe("/api/users", () => {

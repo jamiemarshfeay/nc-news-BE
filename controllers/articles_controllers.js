@@ -27,17 +27,25 @@ const getCommentsByArticleId = (req, res) => {
     requestPromises.unshift(checkArticleExists(article_id));
   }
 
-  return Promise.all(requestPromises).then((comments) => {
-    res.status(200).send({ comments: comments[1] });
+  return Promise.all(requestPromises).then((results) => {
+    res.status(200).send({ comments: results[1] });
   });
 };
 
 const postCommentByArticleId = (req, res) => {
   const { article_id } = req.params;
   const { username, body } = req.body;
-  return insertCommentByArticleId(username, body, article_id).then(
-    (comment) => {
-      res.status(200).send({ comment: comment });
+  const requestPromises = [
+    insertCommentByArticleId(username, body, article_id),
+  ];
+
+  if (article_id) {
+    requestPromises.unshift(checkArticleExists(article_id));
+  }
+
+  return Promise.all(requestPromises).then(
+    (results) => {
+      res.status(200).send({ comment: results[1] });
     }
   );
 };

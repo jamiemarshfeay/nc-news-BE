@@ -78,10 +78,10 @@ function insertCommentByArticleId(username, body, id) {
       [username, body, id]
     )
     .then(({ rows }) => {
-      console.log(rows, '<<< return value of post method')
-      if (rows.length === 0) {
-        return Promise.reject({ status: 404, msg: "Article not found" });
-      }
+      // console.log(rows, '<<< return value of post method')
+      // if (rows.length === 0) {
+      //   return Promise.reject({ status: 404, msg: "Article not found" });
+      // }
       return rows[0];
     });
 }

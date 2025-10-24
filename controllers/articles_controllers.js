@@ -4,6 +4,7 @@ const {
   readCommentsByArticleId,
   checkArticleExists,
   insertCommentToArticle,
+  amendArticleVotes,
 } = require("../models/articles_models");
 
 const getArticles = (req, res) => {
@@ -49,9 +50,27 @@ const postCommentToArticle = (req, res) => {
   }
 };
 
+const patchVotesByArticleId = (req, res) => {
+  const { article_id } = req.params;
+  const { inc_votes } = req.body;
+
+  if (typeof inc_votes === "number") {
+    return checkArticleExists(article_id)
+      .then(() => {
+        return amendArticleVotes(inc_votes, article_id);
+      })
+      .then((article) => {
+        res.status(200).send({ article: article });
+      });
+  } else {
+    return Promise.reject({ status: 400, msg: "You have made a bad request" });
+  }
+};
+
 module.exports = {
   getArticles,
   getArticleById,
   getCommentsByArticleId,
   postCommentToArticle,
+  patchVotesByArticleId,
 };

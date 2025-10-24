@@ -270,7 +270,8 @@ describe("/api/articles", () => {
     });
   });
   describe.only("PATCH /:article_id", () => {
-    xtest("responds with a 400 status when passed a completely invalid ID", () => {
+    test("responds with a 400 status when passed a completely invalid ID", () => {
+      const testBody = { inc_votes: 7 };
       return request(app)
         .patch("/api/articles/not_an_id")
         .send(testBody)
@@ -279,7 +280,8 @@ describe("/api/articles", () => {
           expect(body.msg).toBe("You have made a bad request");
         });
     });
-    xtest("responds with a 404 status when passed a valid possible ID, but one that does not exist", () => {
+    test("responds with a 404 status when passed a valid possible ID, but one that does not exist", () => {
+      const testBody = { inc_votes: 7 };
       return request(app)
         .patch("/api/articles/500")
         .send(testBody)
@@ -288,7 +290,7 @@ describe("/api/articles", () => {
           expect(body.msg).toBe("Article not found");
         });
     });
-    xtest("responds with a 400 status when passed a body that does not contain the correct field", () => {
+    test("responds with a 400 status when passed a body that does not contain the correct field", () => {
       const testBody = { invalidKey: 3 };
       return request(app)
         .patch("/api/articles/not_an_id")
@@ -298,7 +300,7 @@ describe("/api/articles", () => {
           expect(body.msg).toBe("You have made a bad request");
         });
     });
-    xtest("responds with a 400 status when passed a body that contains a valid field but the value of that field is invalid", () => {
+    test("responds with a 400 status when passed a body that contains a valid field but the value of that field is invalid", () => {
       const testBody = { inc_votes: "three" };
       return request(app)
         .patch("/api/articles/not_an_id")
@@ -308,7 +310,7 @@ describe("/api/articles", () => {
           expect(body.msg).toBe("You have made a bad request");
         });
     });
-    xtest("responds with a 200 status, updates, and accesses the article object when passed a valid ID, alongside a positive increment value", () => {
+    test("responds with a 200 status, updates, and accesses the article object when passed a valid ID, alongside a positive increment value", () => {
       const testBody = { inc_votes: 7 };
       return request(app)
         .patch("/api/articles/1")
@@ -320,7 +322,7 @@ describe("/api/articles", () => {
           expect(article.votes).toBe(107);
         });
     });
-    xtest("responds with a 200 status, updates, and accesses the article object when passed a valid ID, alongside a negative increment value", () => {
+    test("responds with a 200 status, updates, and accesses the article object when passed a valid ID, alongside a negative increment value", () => {
       const testBody = { inc_votes: -50 };
       return request(app)
         .patch("/api/articles/1")
@@ -332,7 +334,7 @@ describe("/api/articles", () => {
           expect(article.votes).toBe(50);
         });
     });
-    xtest("responds with a 200 status, updates, and accesses the article object when passed a valid ID, alongside a positive increment value - all while any other properties on the article remain unchanged", () => {
+    test("responds with a 200 status, updates, and accesses the article object when passed a valid ID, alongside a positive increment value - all while any other properties on the article remain unchanged", () => {
       const testBody = { inc_votes: 36 };
       return request(app)
         .patch("/api/articles/1")

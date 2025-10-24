@@ -5,7 +5,7 @@ const {
   getArticles,
   getArticleById,
   getCommentsByArticleId,
-  postCommentByArticleId,
+  postCommentToArticle,
 } = require("./controllers/articles_controllers.js");
 const { getUsers } = require("./controllers/users_controllers.js");
 const {
@@ -27,7 +27,7 @@ app.get("/api/articles/:article_id", getArticleById);
 
 app.get("/api/articles/:article_id/comments", getCommentsByArticleId);
 
-app.post("/api/articles/:article_id/comments", postCommentByArticleId);
+app.post("/api/articles/:article_id/comments", postCommentToArticle);
 
 app.use(handleNonPathErrors);
 

@@ -213,7 +213,7 @@ describe("/api/articles", () => {
           expect(body.msg).toBe("You have made a bad request");
         });
     });
-    test.only("responds with a 404 status when passed a valid possible ID before `/comments`, but one that does not exist", () => {
+    test("responds with a 404 status when passed a valid possible ID before `/comments`, but one that does not exist", () => {
       // need to do a checkArticleExists function first
       const testBody = {
         username: "space_cowboy",
@@ -253,7 +253,7 @@ describe("/api/articles", () => {
           expect(body.msg).toBe("You have made a bad request");
         });
     });
-    xtest("responds with a 200 status and returns the new comment object, when passed a valid ID with a valid body", () => {
+    test.only("responds with a 200 status and returns the new comment object, when passed a valid ID with a valid body", () => {
       const testBody = {
         username: "space_cowboy",
         body: "This is the return of the space cowboy",

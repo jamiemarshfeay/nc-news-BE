@@ -70,18 +70,15 @@ function checkArticleExists(id) {
   });
 }
 
-function insertCommentByArticleId(username, body, id) {
+function insertCommentToArticle(username, body, title) {
   return db.query(
-      `INSERT INTO comments (author, body, article_id)
+      `INSERT INTO comments (author, body, article_title)
       VALUES ($1, $2, $3)
       RETURNING *;`,
-      [username, body, id]
+      [username, body, title]
     )
     .then(({ rows }) => {
-      // console.log(rows, '<<< return value of post method')
-      // if (rows.length === 0) {
-      //   return Promise.reject({ status: 404, msg: "Article not found" });
-      // }
+      console.log(rows)
       return rows[0];
     });
 }
@@ -91,5 +88,5 @@ module.exports = {
   readArticleById,
   readCommentsByArticleId,
   checkArticleExists,
-  insertCommentByArticleId,
+  insertCommentToArticle,
 };

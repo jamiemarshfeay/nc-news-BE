@@ -9,6 +9,7 @@ const {
   patchVotesByArticleId,
 } = require("./controllers/articles_controllers.js");
 const { getUsers } = require("./controllers/users_controllers.js");
+const { deleteCommentById } = require("./controllers/comments_controllers.js");
 const {
   handleNonPathErrors,
   handlePostgresErrors,
@@ -31,6 +32,8 @@ app.get("/api/articles/:article_id/comments", getCommentsByArticleId);
 app.post("/api/articles/:article_id/comments", postCommentToArticle);
 
 app.patch("/api/articles/:article_id", patchVotesByArticleId);
+
+app.delete("/api/comments/:comment_id", deleteCommentById);
 
 app.use(handleNonPathErrors);
 

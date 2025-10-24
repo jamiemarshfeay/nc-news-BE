@@ -374,3 +374,32 @@ describe("/api/users", () => {
     });
   });
 });
+
+describe("/api/comments", () => {
+  xdescribe("DELETE /:comment_id", () => {
+    test("responds with a 400 status when passed a completely invalid ID", () => {
+      return request(app)
+        .delete("/api/comments/notACommentId")
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("You have made a bad request");
+        });
+    });
+    test("responds with a 404 status when passed a valid possible ID, but one that does not exist", () => {
+      return request(app)
+        .delete("/api/comments/9999")
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Article not found");
+        });
+    });
+    test("responds with a 204 success status and returns no content when passed a valid ID", () => {
+      return request(app)
+        .delete("/api/comments/12")
+        .expect(204)
+        .then(({ body }) => {
+          expect(body.msg).toBe("No content");
+        });
+    });
+  });
+});

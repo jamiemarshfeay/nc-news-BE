@@ -19,7 +19,7 @@ const seed = ({ topicData, userData, articleData, commentData }) => {
     return db.query(`
       CREATE TABLE topics (
         slug VARCHAR(255) PRIMARY KEY,
-        description VARCHAR(255) NOT NULL,
+        description VARCHAR(255),
         img_url VARCHAR(1000)
       );
     `);
@@ -28,7 +28,7 @@ const seed = ({ topicData, userData, articleData, commentData }) => {
     return db.query(`
       CREATE TABLE users (
         username VARCHAR(255) PRIMARY KEY,
-        name VARCHAR(255) NOT NULL,
+        name VARCHAR(255),
         avatar_url VARCHAR(1000)
       );
     `);
@@ -37,12 +37,12 @@ const seed = ({ topicData, userData, articleData, commentData }) => {
     return db.query(`
       CREATE TABLE articles (
         article_id SERIAL PRIMARY KEY,
-        title VARCHAR(255) NOT NULL,
-        topic VARCHAR(255) NOT NULL REFERENCES topics(slug),
-        author VARCHAR(255) NOT NULL REFERENCES users(username),
-        body TEXT NOT NULL,
-        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        votes INT NOT NULL DEFAULT 0,
+        title VARCHAR(255),
+        topic VARCHAR(255) REFERENCES topics(slug),
+        author VARCHAR(255) REFERENCES users(username),
+        body TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        votes INT DEFAULT 0,
         article_img_url VARCHAR(1000)
       );
     `);
@@ -51,11 +51,11 @@ const seed = ({ topicData, userData, articleData, commentData }) => {
     return db.query(`
       CREATE TABLE comments (
         comment_id SERIAL PRIMARY KEY,
-        article_id INT NOT NULL REFERENCES articles(article_id),
-        body TEXT NOT NULL,
-        votes INT NOT NULL DEFAULT 0,
-        author VARCHAR(255) NOT NULL REFERENCES users(username),
-        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+        article_id INT REFERENCES articles(article_id),
+        body TEXT,
+        votes INT DEFAULT 0,
+        author VARCHAR(255) REFERENCES users(username),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
   })

@@ -70,15 +70,14 @@ function checkArticleExists(id) {
   });
 }
 
-function insertCommentToArticle(username, body, title) {
+function insertCommentToArticle(username, body, id) {
   return db.query(
-      `INSERT INTO comments (author, body, article_title)
+      `INSERT INTO comments (author, body, article_id)
       VALUES ($1, $2, $3)
       RETURNING *;`,
-      [username, body, title]
+      [username, body, id]
     )
     .then(({ rows }) => {
-      console.log(rows)
       return rows[0];
     });
 }

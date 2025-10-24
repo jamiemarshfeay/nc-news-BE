@@ -36,13 +36,17 @@ const postCommentToArticle = (req, res) => {
   const { article_id } = req.params;
   const { username, body } = req.body;
 
-  return readArticleById(article_id)
-    .then((article) => {
-      return insertCommentToArticle(username, body, article);
-    })
-    .then((comment) => {
-      res.status(200).send({ comment: comment });
-    });
+  if (typeof username === "string" && typeof body === "string") {
+    return checkArticleExists(article_id)
+      .then(() => {
+        return insertCommentToArticle(username, body, article_id);
+      })
+      .then((comment) => {
+        res.status(200).send({ comment: comment });
+      });
+  } else {
+    return Promise.reject({ status: 400, msg: "You have made a bad request" });
+  }
 };
 
 module.exports = {

@@ -199,10 +199,10 @@ describe("/api/articles", () => {
         });
     });
   });
-  xdescribe("POST /:article_id/comments", () => {
+  describe("POST /:article_id/comments", () => {
     test("responds with a 400 status when passed a completely invalid ID before `/comments`", () => {
       const testBody = {
-        username: "space_cowboy",
+        username: "icellusedkars",
         body: "This is the return of the space cowboy",
       };
       return request(app)
@@ -214,9 +214,8 @@ describe("/api/articles", () => {
         });
     });
     test("responds with a 404 status when passed a valid possible ID before `/comments`, but one that does not exist", () => {
-      // need to do a checkArticleExists function first
       const testBody = {
-        username: "space_cowboy",
+        username: "icellusedkars",
         body: "This is the return of the space cowboy",
       };
       return request(app)
@@ -227,7 +226,7 @@ describe("/api/articles", () => {
           expect(body.msg).toBe("Article not found");
         });
     });
-    xtest("responds with a 400 status when passed a body that does not contain the correct fields", () => {
+    test("responds with a 400 status when passed a body that does not contain the correct fields", () => {
       const testBody = {
         birthstone: "diamond",
         faveFood: "steak",
@@ -240,7 +239,7 @@ describe("/api/articles", () => {
           expect(body.msg).toBe("You have made a bad request");
         });
     });
-    xtest("responds with a 400 status when passed a body that contains valid fields but the value of one, or multiple, of the fields is invalid", () => {
+    test("responds with a 400 status when passed a body that contains valid fields but the value of one, or multiple, of the fields is invalid", () => {
       const testBody = {
         username: 10,
         body: true,
@@ -253,9 +252,9 @@ describe("/api/articles", () => {
           expect(body.msg).toBe("You have made a bad request");
         });
     });
-    test.only("responds with a 200 status and returns the new comment object, when passed a valid ID with a valid body", () => {
+    test("responds with a 200 status and returns the new comment object, when passed a valid ID with a valid body", () => {
       const testBody = {
-        username: "space_cowboy",
+        username: "icellusedkars",
         body: "This is the return of the space cowboy",
       };
       return request(app)
@@ -265,7 +264,7 @@ describe("/api/articles", () => {
         .then(({ body }) => {
           const comment = body.comment;
           expect(comment.article_id).toBe(5);
-          expect(comment.username).toBe(testBody.username);
+          expect(comment.author).toBe(testBody.username);
           expect(comment.body).toBe(testBody.body);
         });
     });

@@ -140,7 +140,7 @@ describe("/api/articles", () => {
         });
     });
   });
-  xdescribe("GET /:article_id/comments", () => {
+  describe("GET /:article_id/comments", () => {
     test("responds with a 400 status when passed a completely invalid ID before `/comments`", () => {
       return request(app)
         .get("/api/articles/stillNotAnId/comments")
@@ -157,7 +157,7 @@ describe("/api/articles", () => {
           expect(body.msg).toBe("Article not found");
         });
     });
-    test.only("responds with 200 status and an empty array when passed a valid ID before `/comments`, but there are no comments relevant to that article", () => {
+    test("responds with 200 status and an empty array when passed a valid ID before `/comments`, but there are no comments relevant to that article", () => {
       return request(app)
         .get("/api/articles/2/comments")
         .expect(200)

@@ -36,7 +36,7 @@ function readArticleById(id) {
     });
 }
 
-function readCommentByArticleId(id) {
+function readCommentsByArticleId(id) {
   return db.query(
       `SELECT
             comments.comment_id,
@@ -53,11 +53,21 @@ function readCommentByArticleId(id) {
       [id]
     )
     .then(({ rows }) => {
-      if (rows.length === 0) {
-        return Promise.reject({ status: 404, msg: "Article not found" });
-      }
       return rows;
     });
+}
+
+function checkArticleExists(id) {
+  return db.query(
+    `SELECT * FROM articles
+    WHERE article_id = $1`,
+    [id]
+  )
+  .then(({ rows }) => {
+    if (rows.length === 0) {
+      return Promise.reject({ status: 404, msg: "Article not found" });
+    }
+  });
 }
 
 function insertCommentByArticleId(username, body, id) {
@@ -79,6 +89,7 @@ function insertCommentByArticleId(username, body, id) {
 module.exports = {
   readArticles,
   readArticleById,
-  readCommentByArticleId,
+  readCommentsByArticleId,
+  checkArticleExists,
   insertCommentByArticleId,
 };

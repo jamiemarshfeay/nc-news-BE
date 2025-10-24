@@ -1,7 +1,8 @@
 const {
   readArticles,
   readArticleById,
-  readCommentByArticleId,
+  readCommentsByArticleId,
+  checkArticleExists,
   insertCommentByArticleId,
 } = require("../models/articles_models");
 
@@ -18,10 +19,16 @@ const getArticleById = (req, res) => {
   });
 };
 
-const getCommentByArticleId = (req, res) => {
+const getCommentsByArticleId = (req, res) => {
   const { article_id } = req.params;
-  return readCommentByArticleId(article_id).then((comments) => {
-    res.status(200).send({ comments: comments });
+  const requestPromises = [readCommentsByArticleId(article_id)];
+
+  if (article_id) {
+    requestPromises.unshift(checkArticleExists(article_id));
+  }
+
+  return Promise.all(requestPromises).then((comments) => {
+    res.status(200).send({ comments: comments[1] });
   });
 };
 
@@ -38,6 +45,6 @@ const postCommentByArticleId = (req, res) => {
 module.exports = {
   getArticles,
   getArticleById,
-  getCommentByArticleId,
+  getCommentsByArticleId,
   postCommentByArticleId,
 };

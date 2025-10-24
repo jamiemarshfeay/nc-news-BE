@@ -3,7 +3,6 @@ const handleNonPathErrors = (req, res) => {
 };
 
 const handlePostgresErrors = (err, req, res, next) => {
-  console.log(err.code, '<<< psql error code')
   if (err.code === "22P02") {
     res.status(400).send({ msg: "You have made a bad request" });
   } else {

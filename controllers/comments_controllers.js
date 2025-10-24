@@ -10,8 +10,8 @@ const deleteCommentById = (req, res) => {
     .then(() => {
       return removeCommentById(comment_id);
     })
-    .then((message) => {
-      res.status(204).send(message);
+    .then(() => {
+      res.status(204).send();
     });
 };
 

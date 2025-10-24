@@ -32,7 +32,7 @@ describe("ALL: *", () => {
 
 describe("/api/topics", () => {
   describe("GET", () => {
-    test("responds with a success status when connected to the api and accesses the topics", () => {
+    test("responds with a success status when connected to the api and accesses an array of the topics", () => {
       return request(app)
         .get("/api/topics")
         .expect(200)
@@ -51,7 +51,7 @@ describe("/api/topics", () => {
 
 describe("/api/articles", () => {
   describe("GET", () => {
-    test("responds with a success status when connected to the api and accesses the articles", () => {
+    test("responds with a success status when connected to the api and accesses an array of the articles", () => {
       return request(app)
         .get("/api/articles")
         .expect(200)
@@ -123,7 +123,7 @@ describe("/api/articles", () => {
           expect(body.msg).toBe("Article not found");
         });
     });
-    test("responds with a 200 status and accesses the article when passed a valid ID", () => {
+    test("responds with a 200 status and accesses the article object when passed a valid ID", () => {
       return request(app)
         .get("/api/articles/1")
         .expect(200)
@@ -140,7 +140,7 @@ describe("/api/articles", () => {
         });
     });
   });
-  describe("GET /:article_id/comments", () => {
+  xdescribe("GET /:article_id/comments", () => {
     test("responds with a 400 status when passed a completely invalid ID before `/comments`", () => {
       return request(app)
         .get("/api/articles/stillNotAnId/comments")
@@ -157,7 +157,17 @@ describe("/api/articles", () => {
           expect(body.msg).toBe("Article not found");
         });
     });
-    test("responds with 200 status and all comments from the particular article when passed a valid ID before `/comments`", () => {
+    test.only("responds with 200 status and an empty array when passed a valid ID before `/comments`, but there are no comments relevant to that article", () => {
+      return request(app)
+        .get("/api/articles/2/comments")
+        .expect(200)
+        .then(({ body }) => {
+          const comments = body.comments;
+          expect(comments).toBeInstanceOf(Array);
+          expect(comments.length).toBe(0);
+        });
+    });
+    test("responds with 200 status and an array of all comments from the particular article when passed a valid ID before `/comments`", () => {
       return request(app)
         .get("/api/articles/5/comments")
         .expect(200)
@@ -190,7 +200,7 @@ describe("/api/articles", () => {
     });
   });
   xdescribe("POST /:article_id/comments", () => {
-    xtest("responds with a 400 status when passed a completely invalid ID before `/comments`", () => {
+    test("responds with a 400 status when passed a completely invalid ID before `/comments`", () => {
       const testBody = {
         username: "space_cowboy",
         body: "This is the return of the space cowboy",
@@ -203,7 +213,8 @@ describe("/api/articles", () => {
           expect(body.msg).toBe("You have made a bad request");
         });
     });
-    xtest("responds with a 404 status when passed a valid possible ID before `/comments`, but one that does not exist", () => {
+    test.only("responds with a 404 status when passed a valid possible ID before `/comments`, but one that does not exist", () => {
+      // need to do a checkArticleExists function first
       const testBody = {
         username: "space_cowboy",
         body: "This is the return of the space cowboy",

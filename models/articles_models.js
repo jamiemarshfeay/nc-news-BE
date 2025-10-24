@@ -91,7 +91,6 @@ function amendArticleVotes(inc_votes, id) {
     [inc_votes, id]
   )
   .then(({ rows }) => {
-    console.log(rows)
     return rows[0];
   });
 }

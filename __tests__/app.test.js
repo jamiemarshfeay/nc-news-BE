@@ -199,7 +199,7 @@ describe("/api/articles", () => {
         });
     });
   });
-  describe("POST /:article_id/comments", () => {
+  describe.only("POST /:article_id/comments", () => {
     test("responds with a 400 status when passed a completely invalid ID before `/comments`", () => {
       const testBody = {
         username: "icellusedkars",
@@ -269,7 +269,7 @@ describe("/api/articles", () => {
         });
     });
   });
-  describe.only("PATCH /:article_id", () => {
+  xdescribe("PATCH /:article_id", () => {
     test("responds with a 400 status when passed a completely invalid ID", () => {
       const testBody = { inc_votes: 7 };
       return request(app)
@@ -290,10 +290,10 @@ describe("/api/articles", () => {
           expect(body.msg).toBe("Article not found");
         });
     });
-    test("responds with a 400 status when passed a body that does not contain the correct field", () => {
+    test.only("responds with a 400 status when passed a body that does not contain the correct field", () => {
       const testBody = { invalidKey: 3 };
       return request(app)
-        .patch("/api/articles/not_an_id")
+        .patch("/api/articles/2")
         .send(testBody)
         .expect(400)
         .then(({ body }) => {
@@ -303,7 +303,7 @@ describe("/api/articles", () => {
     test("responds with a 400 status when passed a body that contains a valid field but the value of that field is invalid", () => {
       const testBody = { inc_votes: "three" };
       return request(app)
-        .patch("/api/articles/not_an_id")
+        .patch("/api/articles/4")
         .send(testBody)
         .expect(400)
         .then(({ body }) => {

@@ -99,19 +99,6 @@ describe("/api/articles", () => {
         .expect(200)
         .then(({ body }) => {
           const articles = body.articles;
-          for (let i = 1; i < articles.length; i++) {
-            expect(articles[i].created_at <= articles[i - 1].created_at).toBe(
-              true
-            );
-          }
-        });
-    });
-    test("tests the articles are returned in descending date order when passed no query", () => {
-      return request(app)
-        .get("/api/articles")
-        .expect(200)
-        .then(({ body }) => {
-          const articles = body.articles;
           expect(articles).toBeSortedBy("created_at", { descending: true });
         });
     });

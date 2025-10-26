@@ -102,7 +102,7 @@ describe("/api/articles", () => {
           expect(articles).toBeSortedBy("created_at", { descending: true });
         });
     });
-    xtest("tests the articles are sorted by a string column, and in reverse alphabetical order, when passed a 'sort_by' query with no 'order' query", () => {
+    test("tests the articles are sorted by a string column, and in reverse alphabetical order, when passed a 'sort_by' query with no 'order' query", () => {
       const strColumns = [
         "author",
         "title",
@@ -119,7 +119,7 @@ describe("/api/articles", () => {
             expect(articles).toBeSortedBy(column, { descending: true });
           });
       });
-      return testRequests;
+      return Promise.all(testRequests);
     });
     xtest("tests the articles are sorted by a number column, and in descending order, when passed a 'sort_by' query with no 'order' query", () => {
       const numColumns = ["article_id", "votes", "comment_count"];
@@ -132,11 +132,11 @@ describe("/api/articles", () => {
             expect(articles).toBeSortedBy(column, { descending: true });
           });
       });
-      return testRequests;
+      return Promise.all(testRequests);
     });
     xtest("tests the articles are sorted by date, and in ascending order, when passed an ASC 'order' query with no 'sort_by' query", () => {
       return request(app)
-        .get("/api/articles?order=asc")
+        .get("/api/articles?order=ASC")
         .expect(200)
         .then(({ body }) => {
           const articles = body.articles;
@@ -145,7 +145,7 @@ describe("/api/articles", () => {
     });
     xtest("tests the articles are sorted by date, and in descending order, when passed an DESC 'order' query with no 'sort_by' query", () => {
       return request(app)
-        .get("/api/articles?order=desc")
+        .get("/api/articles?order=DESC")
         .expect(200)
         .then(({ body }) => {
           const articles = body.articles;
@@ -165,14 +165,14 @@ describe("/api/articles", () => {
       ];
       const testRequests = allColumns.map((column) => {
         return request(app)
-          .get(`/api/articles?sort_by=${column}&order=asc`)
+          .get(`/api/articles?sort_by=${column}&order=ASC`)
           .expect(200)
           .then(({ body }) => {
             const articles = body.articles;
             expect(articles).toBeSortedBy(column, { descending: false });
           });
       });
-      return testRequests;
+      return Promise.all(testRequests);
     });
     xtest("tests the articles are sorted by a column, and in descending order, when passed a 'sort_by' query with a DESC 'order' query", () => {
       const allColumns = [
@@ -187,14 +187,14 @@ describe("/api/articles", () => {
       ];
       const testRequests = allColumns.map((column) => {
         return request(app)
-          .get(`/api/articles?sort_by=${column}&order=desc`)
+          .get(`/api/articles?sort_by=${column}&order=DESC`)
           .expect(200)
           .then(({ body }) => {
             const articles = body.articles;
             expect(articles).toBeSortedBy(column, { descending: true });
           });
       });
-      return testRequests;
+      return Promise.all(testRequests);
     });
     xtest("responds with a 400 status when passed an invalid 'sort_by' query", () => {
       return request(app)

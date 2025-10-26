@@ -1,7 +1,26 @@
 const db = require("../db/connection");
 
-function readArticles() {
-  return db.query(
+function readArticles(sort_by = "created_at", order = "DESC") {
+  const validSortColumns = [
+    "author",
+    "title",
+    "article_id",
+    "topic",
+    "created_at",
+    "votes",
+    "article_img_url",
+    "comment_count",
+  ];
+  const validOrderOptions = ["ASC", "DESC"];
+
+  if (
+    !validSortColumns.includes(sort_by) ||
+    !validOrderOptions.includes(order)
+  ) {
+    return Promise.reject({ status: 400, msg: "You have made a bad request" });
+  }
+
+  const queryStr =
       `SELECT 
             articles.author,
             articles.title,
@@ -15,11 +34,12 @@ function readArticles() {
         LEFT JOIN comments
             ON articles.article_id = comments.article_id
         GROUP BY articles.article_id
-        ORDER BY articles.created_at DESC;`
-    )
-    .then(({ rows }) => {
-      return rows;
-    });
+        ORDER BY articles.${sort_by} ${order};
+      `;
+
+  return db.query(queryStr).then(({ rows }) => {
+    return rows;
+  });
 }
 
 function readArticleById(id) {

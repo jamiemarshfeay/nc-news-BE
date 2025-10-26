@@ -121,8 +121,10 @@ describe("/api/articles", () => {
       });
       return Promise.all(testRequests);
     });
-    xtest("tests the articles are sorted by a number column, and in descending order, when passed a 'sort_by' query with no 'order' query", () => {
-      const numColumns = ["article_id", "votes", "comment_count"];
+    test("tests the articles are sorted by a number column, and in descending order, when passed a 'sort_by' query with no 'order' query", () => {
+      const numColumns = ["article_id", "votes", 
+        "comment_count"
+      ];
       const testRequests = numColumns.map((column) => {
         return request(app)
           .get(`/api/articles?sort_by=${column}`)

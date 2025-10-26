@@ -20,6 +20,8 @@ function readArticles(sort_by = "created_at", order = "DESC") {
     return Promise.reject({ status: 400, msg: "You have made a bad request" });
   }
 
+  
+
   const queryStr =
       `SELECT 
             articles.author,
@@ -34,7 +36,7 @@ function readArticles(sort_by = "created_at", order = "DESC") {
         LEFT JOIN comments
             ON articles.article_id = comments.article_id
         GROUP BY articles.article_id
-        ORDER BY articles.${sort_by} ${order};
+        ORDER BY ${sort_by} ${order};
       `;
 
   return db.query(queryStr).then(({ rows }) => {

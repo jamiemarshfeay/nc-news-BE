@@ -2,6 +2,7 @@ const db = require("../db/connection");
 const seed = require("../db/seeds/seed");
 const data = require("../db/data/test-data");
 const request = require("supertest");
+require("jest-sorted");
 const app = require("../app.js");
 
 beforeEach(() => {
@@ -51,7 +52,7 @@ describe("/api/topics", () => {
 
 describe("/api/articles", () => {
   describe("GET", () => {
-    test("responds with a success status when connected to the api and accesses an array of the articles", () => {
+    test("responds with a success status when connected to the api and accesses an array of all the articles", () => {
       return request(app)
         .get("/api/articles")
         .expect(200)
@@ -81,7 +82,18 @@ describe("/api/articles", () => {
           });
         });
     });
-    test("tests the articles are returned in descending date order", () => {
+    test("tests that there is no body property present on the articles", () => {
+      return request(app)
+        .get("/api/articles")
+        .expect(200)
+        .then(({ body }) => {
+          const articles = body.articles;
+          articles.forEach((article) => {
+            expect(article.body).toBe(undefined);
+          });
+        });
+    });
+    test("tests the articles are returned in descending date order when passed no query", () => {
       return request(app)
         .get("/api/articles")
         .expect(200)
@@ -94,15 +106,123 @@ describe("/api/articles", () => {
           }
         });
     });
-    test("tests that there is no body property present on the articles", () => {
+    test("tests the articles are returned in descending date order when passed no query", () => {
       return request(app)
         .get("/api/articles")
         .expect(200)
         .then(({ body }) => {
           const articles = body.articles;
-          articles.forEach((article) => {
-            expect(article.body).toBe(undefined);
+          expect(articles).toBeSortedBy("created_at", { descending: true });
+        });
+    });
+    xtest("tests the articles are sorted by a string column, and in reverse alphabetical order, when passed a 'sort_by' query with no 'order' query", () => {
+      const strColumns = [
+        "author",
+        "title",
+        "topic",
+        "created_at",
+        "article_img_url",
+      ];
+      const testRequests = strColumns.map((column) => {
+        return request(app)
+          .get(`/api/articles?sort_by=${column}`)
+          .expect(200)
+          .then(({ body }) => {
+            const articles = body.articles;
+            expect(articles).toBeSortedBy(column, { descending: true });
           });
+      });
+      return testRequests;
+    });
+    xtest("tests the articles are sorted by a number column, and in descending order, when passed a 'sort_by' query with no 'order' query", () => {
+      const numColumns = ["article_id", "votes", "comment_count"];
+      const testRequests = numColumns.map((column) => {
+        return request(app)
+          .get(`/api/articles?sort_by=${column}`)
+          .expect(200)
+          .then(({ body }) => {
+            const articles = body.articles;
+            expect(articles).toBeSortedBy(column, { descending: true });
+          });
+      });
+      return testRequests;
+    });
+    xtest("tests the articles are sorted by date, and in ascending order, when passed an ASC 'order' query with no 'sort_by' query", () => {
+      return request(app)
+        .get("/api/articles?order=asc")
+        .expect(200)
+        .then(({ body }) => {
+          const articles = body.articles;
+          expect(articles).toBeSortedBy("created_at", { descending: false });
+        });
+    });
+    xtest("tests the articles are sorted by date, and in descending order, when passed an DESC 'order' query with no 'sort_by' query", () => {
+      return request(app)
+        .get("/api/articles?order=desc")
+        .expect(200)
+        .then(({ body }) => {
+          const articles = body.articles;
+          expect(articles).toBeSortedBy("created_at", { descending: true });
+        });
+    });
+    xtest("tests the articles are sorted by a column, and in ascending order, when passed a 'sort_by' query with an ASC 'order' query", () => {
+      const allColumns = [
+        "author",
+        "title",
+        "article_id",
+        "topic",
+        "created_at",
+        "votes",
+        "article_img_url",
+        "comment_count",
+      ];
+      const testRequests = allColumns.map((column) => {
+        return request(app)
+          .get(`/api/articles?sort_by=${column}&order=asc`)
+          .expect(200)
+          .then(({ body }) => {
+            const articles = body.articles;
+            expect(articles).toBeSortedBy(column, { descending: false });
+          });
+      });
+      return testRequests;
+    });
+    xtest("tests the articles are sorted by a column, and in descending order, when passed a 'sort_by' query with a DESC 'order' query", () => {
+      const allColumns = [
+        "author",
+        "title",
+        "article_id",
+        "topic",
+        "created_at",
+        "votes",
+        "article_img_url",
+        "comment_count",
+      ];
+      const testRequests = allColumns.map((column) => {
+        return request(app)
+          .get(`/api/articles?sort_by=${column}&order=desc`)
+          .expect(200)
+          .then(({ body }) => {
+            const articles = body.articles;
+            expect(articles).toBeSortedBy(column, { descending: true });
+          });
+      });
+      return testRequests;
+    });
+    xtest("responds with a 400 status when passed an invalid 'sort_by' query", () => {
+      return request(app)
+        .get("/api/articles?sort_by=not_a_column")
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("You have made a bad request");
+        });
+    });
+    xtest("responds with a 400 status when passed an invalid 'order' query", () => {
+      return request(app)
+        .get("/api/articles?order=sideways")
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("You have made a bad request");
         });
     });
   });

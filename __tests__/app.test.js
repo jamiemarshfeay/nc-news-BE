@@ -136,7 +136,7 @@ describe("/api/articles", () => {
       });
       return Promise.all(testRequests);
     });
-    xtest("tests the articles are sorted by date, and in ascending order, when passed an ASC 'order' query with no 'sort_by' query", () => {
+    test("tests the articles are sorted by date, and in ascending order, when passed an ASC 'order' query with no 'sort_by' query", () => {
       return request(app)
         .get("/api/articles?order=ASC")
         .expect(200)
@@ -145,7 +145,7 @@ describe("/api/articles", () => {
           expect(articles).toBeSortedBy("created_at", { descending: false });
         });
     });
-    xtest("tests the articles are sorted by date, and in descending order, when passed an DESC 'order' query with no 'sort_by' query", () => {
+    test("tests the articles are sorted by date, and in descending order, when passed an DESC 'order' query with no 'sort_by' query", () => {
       return request(app)
         .get("/api/articles?order=DESC")
         .expect(200)
@@ -154,7 +154,7 @@ describe("/api/articles", () => {
           expect(articles).toBeSortedBy("created_at", { descending: true });
         });
     });
-    xtest("tests the articles are sorted by a column, and in ascending order, when passed a 'sort_by' query with an ASC 'order' query", () => {
+    test("tests the articles are sorted by a column, and in ascending order, when passed a 'sort_by' query with an ASC 'order' query", () => {
       const allColumns = [
         "author",
         "title",
@@ -176,7 +176,7 @@ describe("/api/articles", () => {
       });
       return Promise.all(testRequests);
     });
-    xtest("tests the articles are sorted by a column, and in descending order, when passed a 'sort_by' query with a DESC 'order' query", () => {
+    test("tests the articles are sorted by a column, and in descending order, when passed a 'sort_by' query with a DESC 'order' query", () => {
       const allColumns = [
         "author",
         "title",
@@ -198,7 +198,7 @@ describe("/api/articles", () => {
       });
       return Promise.all(testRequests);
     });
-    xtest("responds with a 400 status when passed an invalid 'sort_by' query", () => {
+    test("responds with a 400 status when passed an invalid 'sort_by' query", () => {
       return request(app)
         .get("/api/articles?sort_by=not_a_column")
         .expect(400)
@@ -206,7 +206,7 @@ describe("/api/articles", () => {
           expect(body.msg).toBe("You have made a bad request");
         });
     });
-    xtest("responds with a 400 status when passed an invalid 'order' query", () => {
+    test("responds with a 400 status when passed an invalid 'order' query", () => {
       return request(app)
         .get("/api/articles?order=sideways")
         .expect(400)

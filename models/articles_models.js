@@ -20,8 +20,6 @@ function readArticles(sort_by = "created_at", order = "DESC") {
     return Promise.reject({ status: 400, msg: "You have made a bad request" });
   }
 
-  
-
   const queryStr =
       `SELECT 
             articles.author,

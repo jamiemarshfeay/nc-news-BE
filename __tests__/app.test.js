@@ -93,7 +93,7 @@ describe("/api/articles", () => {
           });
         });
     });
-    xtest("tests the articles are filtered by topic when passed a 'mitch' 'topic' query", () => {
+    test("tests the articles are filtered by topic when passed a 'mitch' 'topic' query", () => {
       return request(app)
         .get("/api/articles?topic=mitch")
         .expect(200)
@@ -106,7 +106,7 @@ describe("/api/articles", () => {
           });
         });
     });
-    xtest("tests the articles are filtered by topic when passed a 'cats' 'topic' query", () => {
+    test("tests the articles are filtered by topic when passed a 'cats' 'topic' query", () => {
       return request(app)
         .get("/api/articles?topic=cats")
         .expect(200)
@@ -119,7 +119,7 @@ describe("/api/articles", () => {
           });
         });
     });
-    xtest("tests the articles are filtered by topic when passed a 'paper' 'topic' query", () => {
+    test("tests the articles are filtered by topic when passed a 'paper' 'topic' query", () => {
       return request(app)
         .get("/api/articles?topic=paper")
         .expect(200)
@@ -235,7 +235,7 @@ describe("/api/articles", () => {
       });
       return Promise.all(testRequests);
     });
-    xtest("responds with a 400 status when passed an invalid 'topic' query", () => {
+    test("responds with a 400 status when passed an invalid 'topic' query", () => {
       return request(app)
         .get("/api/articles?topic=chocolate")
         .expect(400)

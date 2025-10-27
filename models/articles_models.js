@@ -1,6 +1,6 @@
 const db = require("../db/connection");
 
-function readArticles(sort_by = "created_at", order = "DESC") {
+function readArticles(sort_by = "created_at", order = "DESC", topic) {
   const validSortColumns = [
     "author",
     "title",
@@ -12,12 +12,28 @@ function readArticles(sort_by = "created_at", order = "DESC") {
     "comment_count",
   ];
   const validOrderOptions = ["ASC", "DESC"];
-
+  const validTopicFilters = [
+    "mitch",
+    "cats",
+    "paper",
+    "coding", 
+    "football",
+    "cooking",
+  ];
+  
   if (
     !validSortColumns.includes(sort_by) ||
-    !validOrderOptions.includes(order)
+    !validOrderOptions.includes(order) ||
+    (topic && !validTopicFilters.includes(topic))
   ) {
     return Promise.reject({ status: 400, msg: "You have made a bad request" });
+  }
+  
+  let whereCondition = "";
+  const queryValues = [];
+  if (topic) {
+    queryValues.push(topic);
+    whereCondition = `WHERE articles.topic = $1`;
   }
 
   const queryStr =
@@ -33,11 +49,12 @@ function readArticles(sort_by = "created_at", order = "DESC") {
         FROM articles
         LEFT JOIN comments
             ON articles.article_id = comments.article_id
+        ${whereCondition}
         GROUP BY articles.article_id
         ORDER BY ${sort_by} ${order};
       `;
 
-  return db.query(queryStr).then(({ rows }) => {
+  return db.query(queryStr, queryValues).then(({ rows }) => {
     return rows;
   });
 }

@@ -260,7 +260,7 @@ describe("/api/articles", () => {
         });
     });
   });
-  describe("GET /:article_id", () => {
+  describe.only("GET /:article_id", () => {
     test("responds with a 400 status when passed a completely invalid ID", () => {
       return request(app)
         .get("/api/articles/notAnId")
@@ -291,6 +291,15 @@ describe("/api/articles", () => {
           expect(article.votes).toBe(100);
           expect(typeof article.created_at).toBe("string");
           expect(typeof article.article_img_url).toBe("string");
+        });
+    });
+    xtest("tests the returned object has a property representing the amount of comments relative to that article", () => {
+      return request(app)
+        .get("/api/articles/9")
+        .expect(200)
+        .then(({ body }) => {
+          const article = body.article;
+          expect(article.comment_count).toBe(2);
         });
     });
   });

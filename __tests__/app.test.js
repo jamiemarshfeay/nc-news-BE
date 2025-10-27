@@ -52,7 +52,7 @@ describe("/api/topics", () => {
 
 describe("/api/articles", () => {
   describe("GET", () => {
-    test("responds with a success status when connected to the api and accesses an array of all the articles", () => {
+    test("responds with a success status and an array of all the articles when connected to the api, and no 'topic' query is passed", () => {
       return request(app)
         .get("/api/articles")
         .expect(200)
@@ -93,7 +93,46 @@ describe("/api/articles", () => {
           });
         });
     });
-    test("tests the articles are returned in descending date order when passed no query", () => {
+    xtest("tests the articles are filtered by topic when passed a 'mitch' 'topic' query", () => {
+      return request(app)
+        .get("/api/articles?topic=mitch")
+        .expect(200)
+        .then(({ body }) => {
+          const articles = body.articles;
+          expect(articles).toBeInstanceOf(Array);
+          expect(articles.length).toBe(12);
+          articles.forEach((article) => {
+            expect(article.topic).toBe("mitch");
+          });
+        });
+    });
+    xtest("tests the articles are filtered by topic when passed a 'cats' 'topic' query", () => {
+      return request(app)
+        .get("/api/articles?topic=cats")
+        .expect(200)
+        .then(({ body }) => {
+          const articles = body.articles;
+          expect(articles).toBeInstanceOf(Array);
+          expect(articles.length).toBe(1);
+          articles.forEach((article) => {
+            expect(article.topic).toBe("cats");
+          });
+        });
+    });
+    xtest("tests the articles are filtered by topic when passed a 'paper' 'topic' query", () => {
+      return request(app)
+        .get("/api/articles?topic=paper")
+        .expect(200)
+        .then(({ body }) => {
+          const articles = body.articles;
+          expect(articles).toBeInstanceOf(Array);
+          expect(articles.length).toBe(0);
+          articles.forEach((article) => {
+            expect(article.topic).toBe("paper");
+          });
+        });
+    });
+    test("tests the articles are returned in descending date order when passed no 'sort_by' or 'order' query", () => {
       return request(app)
         .get("/api/articles")
         .expect(200)
@@ -122,9 +161,7 @@ describe("/api/articles", () => {
       return Promise.all(testRequests);
     });
     test("tests the articles are sorted by a number column, and in descending order, when passed a 'sort_by' query with no 'order' query", () => {
-      const numColumns = ["article_id", "votes", 
-        "comment_count"
-      ];
+      const numColumns = ["article_id", "votes", "comment_count"];
       const testRequests = numColumns.map((column) => {
         return request(app)
           .get(`/api/articles?sort_by=${column}`)
@@ -197,6 +234,14 @@ describe("/api/articles", () => {
           });
       });
       return Promise.all(testRequests);
+    });
+    xtest("responds with a 400 status when passed an invalid 'topic' query", () => {
+      return request(app)
+        .get("/api/articles?topic=chocolate")
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("You have made a bad request");
+        });
     });
     test("responds with a 400 status when passed an invalid 'sort_by' query", () => {
       return request(app)

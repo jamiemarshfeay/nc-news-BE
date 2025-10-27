@@ -5,7 +5,8 @@
   "main": "listen.js",
   "scripts": {
     "setup-dbs": "psql -f ./db/setup-dbs.sql",
-    "seed-dev": "node ./db/seeds/run-seed.js",
+    "seed": "node ./db/seeds/run-seed.js",
+    "seed-prod": "NODE_ENV=production npm run seed",
     "queries-dev": "node ./db/run-queries.js",
     "test-utils": "npm test ./__tests__/utils.test.js",
     "test": "jest --runInBand",

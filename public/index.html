@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NC News Application</title>
+    <link rel="stylesheet" href="./style.css"/>
 </head>
 <body>
     <header>
         <h1>NC News API</h1>
-        <p>This API will accept multiple endpoints, multiple methods, and multiple queries. Below you will find a list containing each of the valid endpoints. Each element in the list is a hyperlink directing you to the relevant section on this page for that endpoint. These sections provide a brief description of the purpose and functionality of the endpoint, the format of the request body, and an example response representing the shape of the data.</p>
+        <p>This API will accept multiple endpoints, multiple methods, and multiple queries. Below you will find a list containing each of the valid endpoints. Each element in the list is a hyperlink directing you to the relevant section on this page for that endpoint. These sections provide a brief description of the purpose and functionality of the endpoint, the format of the request body and queries (if applicable), and an example response representing the shape of the data.</p>
     </header>
     <main>
         <section>
@@ -28,9 +29,18 @@
         <section id="topics-endpoint">
             <h2>/api/topics</h2>
             <p> 
-                This endpoint provides an array of all topics available on the site. Each topic object contains a short description, an image url, and a slug (topic name) which can be used to filter articles by topic in other endpoints. This route accepts the GET method and does not take any queries or a request body. It is primarily used to give developers and users an overview of the discussion categories available within the application. If the endpoint is inputted incorrectly you will receive a 404 "Path not found" error, but upon success, the status will be 200.<br><br>
+                <!-- This endpoint provides an array of all topics available on the site. Each topic object contains a short description, an image url, and a slug (topic name) which can be used to filter articles by topic in other endpoints. This route accepts the GET method and does not take any queries or a request body. It is primarily used to give developers and users an overview of the discussion categories available within the application. If the endpoint is inputted incorrectly you will receive a 404 "Path not found" error, but upon success, the status will be 200.<br><br> -->
 
-                Example response (GET):<br>
+                <h3>Functionality</h3>
+                This endpoint returns an array of all topics available on the site. Each topic object includes a short description, an image_url, and a slug (topic name), which can be used to filter articles by topic in other endpoints. The route accepts the GET method and does not take any queries or a request body.<br>
+
+                <h3>Error Guidance and Example Responses</h3>
+                <ul>
+                    <li>If the endpoint path is entered incorrectly, the server will respond with a 404 "Path not found" error.</li>
+                    <li>On success, the response status will be 200 "OK".</li>
+                </ul>
+
+                Example response (GET):<br><br>
 
                 <pre>
                 {
@@ -45,7 +55,22 @@
         <section id="articles-endpoint">
             <h2>/api/articles</h2>
             <p>
-                This endpoint provides an array of all articles available on the site. Each article object contains data such as the author, title, topic, and votes. This route accepts the GET method and does not take a request body, but it does take the queries 'sort_by', 'order', and 'topic'. The 'sort_by' query defaults to 'created_at' and allows for articles to be sorted by columns, i.e., the keys on the objects. 'Order' orders them in ascending / alphabetical or descending / reverse-alphabetical order and defaults to descending. As mentioned previously, 'topic' filters the articles by the specified topic value. If the endpoint is inputted incorrectly you will receive a 404 "Path not found" error, but upon success, the status will be 200.<br><br>
+                <!-- This endpoint provides an array of all articles available on the site. Each article object contains data such as the author, title, topic, and votes. This route accepts the GET method and does not take a request body, but it does take the queries 'sort_by', 'order', and 'topic'. The 'sort_by' query defaults to 'created_at' and allows for articles to be sorted by columns, i.e., the keys on the objects. 'Order' orders them in ascending / alphabetical or descending / reverse-alphabetical order and defaults to descending. As mentioned previously, 'topic' filters the articles by the specified topic value. If the endpoint is inputted incorrectly you will receive a 404 "Path not found" error, but upon success, the status will be 200.<br><br> -->
+
+                <h3>Functionality</h3>
+                This endpoint returns an array of all articles available on the site. Each article object contains fields such as the author, title, topic, and votes. The route accepts the GET method and supports optional queries: 'sort_by', 'order', and 'topic'.<br>
+                <ul>
+                    <li>'sort_by' defaults to 'created_at' and allows sorting by any valid column.</li>
+                    <li>'order' sets the sorting direction to ascending or descending and defaults to descending.</li>
+                    <li>'topic' filters the articles by the specified topic value.</li>
+                </ul>
+
+                <h3>Error Guidance and Example Responses</h3>
+                <ul>
+                    <li>If the endpoint path is entered incorrectly, the response will be 404 "Path not found".</li>
+                    <li>If any invalid query values are passed, the response will be 400 "You have made a bad request".</li>
+                    <li>Successful requests return 200 "OK".</li>
+                </ul>
 
                 Example response (GET):<br><br>
 
@@ -71,7 +96,19 @@
         <section id="article-id-endpoint">
             <h2>/api/articles/:article_id</h2>
             <p>
-                This endpoint using the GET method provides a single article object specified by the article_id path parameter. The route also accepts the PATCH method, which can be used to amend the votes for that particular article and return the updated object. If the non-parametric endpoint is inputted incorrectly you will receive a 404 "Path not found" error, but upon success, the status will be 200. The passing of invalid any invalid article_id will result in a 400 "You have made a bad request" error. Similarly, the passing of a valid possible article_id, but one that doesn't exist, will result in a 404 "Article not found" error. Attempting to PATCH with any invalid object request body will return a 400.<br><br>
+                <!-- This endpoint using the GET method provides a single article object specified by the article_id path parameter. The route also accepts the PATCH method, which can be used to amend the votes for that particular article and return the updated object. If the non-parametric endpoint is inputted incorrectly you will receive a 404 "Path not found" error, but upon success, the status will be 200. The passing of invalid any invalid article_id will result in a 400 "You have made a bad request" error. Similarly, the passing of a valid possible article_id, but one that doesn't exist, will result in a 404 "Article not found" error. Attempting to PATCH with any invalid object request body will return a 400.<br><br> -->
+
+                <h3>Functionality</h3>
+                Using the GET method, this endpoint returns a single article object specified by the article_id path parameter. It also supports the PATCH method, which allows you to update the vote count for that article and returns the updated object.<br>
+
+                <h3>Error Guidance and Example Responses</h3>
+                <ul>
+                    <li>If the base path is entered incorrectly, the response will be 404 "Path not found".</li>
+                    <li>Providing an invalid article_id (e.g. non-numeric) will return 400 "Bad request".</li>
+                    <li>Providing a valid but non-existent article_id will return 404 "Article not found".</li>
+                    <li>Attempting to PATCH with an invalid or missing request body will also return 400 "Bad request".</li>
+                    <li>Successful requests respond with 200 "OK".</li>
+                </ul>
 
                 Example response (GET):<br><br>
 
@@ -115,7 +152,20 @@
         <section id="article-comments-endpoint">
             <h2>/api/articles/:article_id/comments</h2>
             <p>
-                With the GET method this endpoint accesses an array of all the comments releative to the specified article_id. Here, the POST method allows you to upload a valid comment with the specified article_id, i.e., about that article, and returns that new comment object. If the non-parametric endpoint is inputted incorrectly you will receive a 404 "Path not found" error, but upon success, the status will be 200. The passing of invalid any invalid article_id will result in a 400 "You have made a bad request" error. Similarly, the passing of a valid possible article_id, but one that doesn't exist, will result in a 404 "Article not found" error. If the article_id passed is valid but no comments relative to that article exist, then the status will still be 200, but an empty array will be returned. Attempting to POST with any invalid object request body will return a 400.<br><br>
+                <!-- With the GET method this endpoint accesses an array of all the comments releative to the specified article_id. Here, the POST method allows you to upload a valid comment with the specified article_id, i.e., about that article, and returns that new comment object. If the non-parametric endpoint is inputted incorrectly you will receive a 404 "Path not found" error, but upon success, the status will be 200. The passing of invalid any invalid article_id will result in a 400 "You have made a bad request" error. Similarly, the passing of a valid possible article_id, but one that doesn't exist, will result in a 404 "Article not found" error. If the article_id passed is valid but no comments relative to that article exist, then the status will still be 200, but an empty array will be returned. Attempting to POST with any invalid object request body will return a 400.<br><br> -->
+
+                <h3>Functionality</h3>
+                Using the GET method, this endpoint retrieves all comments related to the specified article_id. The POST method allows you to submit a new comment for that article, returning the newly created comment object.<br>
+
+                <h3>Error Guidance and Example Responses</h3>
+                <ul>
+                    <li>If the base path is incorrect, the response will be 404 "Path not found".</li>
+                    <li>If an invalid article_id is supplied (e.g. not a number), the response will be 400 "Bad request".</li>
+                    <li>If a valid but non-existent article_id is provided, the response will be 404 "Article not found".</li>
+                    <li>If the article exists but has no comments, the response will still be 200 "OK" but with an empty array.</li>
+                    <li>Attempting to POST with an invalid or incomplete request body will return 400 "Bad request".</li>
+                    <li>Successful GET and POST requests return 200 "OK" and 201 "Created", respectively.</li>
+                </ul>
 
                 Example response (GET):<br><br>
 
@@ -135,13 +185,15 @@
                 }
                 </pre>
                 
-                The POST method requires a request body of object form - an example of which is:<br>
+                <br>
+                The POST method requires a request body of object form - an example of which is:<br><br>
                 <pre>
                 {
                     "username": "icellusedkars",
                     "body": "This is the return of the space cowboy",
                 }
                 </pre>
+                <br>
 
                 Example response (POST):<br><br>
 
@@ -162,15 +214,35 @@
         <section id="comment-id-endpoint">
             <h2>/api/comments/:comment_id</h2>
             <p>
-                This endpoint takes the DELETE method and deletes the comment specified by the passed comment_id. If the non-parametric endpoint is inputted incorrectly you will receive a 404 "Path not found" error, but upon success, a 204 "No content" status with no body will be returned. If the comment_id does not exist, a 404 "Comment not found" error will be thrown. If the comment_id is invalid, a 400 "You have made a bad request" error will be thrown.
+                <!-- This endpoint takes the DELETE method and deletes the comment specified by the passed comment_id. If the non-parametric endpoint is inputted incorrectly you will receive a 404 "Path not found" error, but upon success, a 204 "No content" status with no body will be returned. If the comment_id does not exist, a 404 "Comment not found" error will be thrown. If the comment_id is invalid, a 400 "You have made a bad request" error will be thrown. -->
+
+                <h3>Functionality</h3>
+                This endpoint accepts the DELETE method and removes the comment matching the provided comment_id.<br>
+
+                <h3>Error Guidance and Example Responses</h3>
+                <ul>
+                    <li>If the base path is incorrect, the response will be 404 "Path not found".</li>
+                    <li>If the comment_id is invalid (e.g. not an integer), the server will respond with 400 "Bad request".</li>
+                    <li>If the comment_id is valid but no matching comment exists, the response will be 404 "Comment not found".</li>
+                    <li>On success, the server will return a 204 "No content" status with an empty body.</li>
+                </ul>
             </p>
         </section>
         <section id="users-endpoint">
             <h2>/api/users</h2>
             <p>
-                This endpoint provides an array of all users available on the site. Each user object contains a username, name, and avatar_url. This route accepts the GET method and does not take any queries or a request body. If the endpoint is inputted incorrectly you will receive a 404 "Path not found" error, but upon success, the status will be 200.<br><br>
+                <!-- This endpoint provides an array of all users available on the site. Each user object contains a username, name, and avatar_url. This route accepts the GET method and does not take any queries or a request body. If the endpoint is inputted incorrectly you will receive a 404 "Path not found" error, but upon success, the status will be 200.<br><br> -->
 
-                Example response (GET):<br>
+                <h3>Functionality</h3>
+                This endpoint returns an array of all users. Each user object includes a username, name, and avatar_url. The route accepts the GET method and does not take any queries or a request body.<br>
+
+                <h3>Error Guidance and Example Responses</h3>
+                <ul>
+                    <li>If the endpoint path is entered incorrectly, the response will be 404 "Path not found".</li>
+                    <li>On success, the server will return 200 "OK".</li>
+                </ul>
+
+                Example response (GET):<br><br>
 
                 <pre>
                 {

@@ -415,7 +415,7 @@ describe("/api/articles", () => {
           expect(body.msg).toBe("You have made a bad request");
         });
     });
-    test("responds with a 200 status and returns the new comment object, when passed a valid ID with a valid body", () => {
+    test("responds with a 201 status and returns the new comment object, when passed a valid ID with a valid body", () => {
       const testBody = {
         username: "icellusedkars",
         body: "This is the return of the space cowboy",
@@ -423,7 +423,7 @@ describe("/api/articles", () => {
       return request(app)
         .post("/api/articles/5/comments")
         .send(testBody)
-        .expect(200)
+        .expect(201)
         .then(({ body }) => {
           const comment = body.comment;
           expect(comment.article_id).toBe(5);

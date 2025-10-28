@@ -44,7 +44,7 @@ const postCommentToArticle = (req, res) => {
         return insertCommentToArticle(username, body, article_id);
       })
       .then((comment) => {
-        res.status(200).send({ comment: comment });
+        res.status(201).send({ comment: comment });
       });
   } else {
     return Promise.reject({ status: 400, msg: "You have made a bad request" });

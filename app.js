@@ -19,6 +19,8 @@ const {
 
 app.use(express.json());
 
+app.use("/api", express.static("public"));
+
 app.get("/api/topics", getTopics);
 
 app.get("/api/articles", getArticles);

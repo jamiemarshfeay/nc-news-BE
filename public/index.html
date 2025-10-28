@@ -54,7 +54,7 @@
             <h2>/api/articles</h2>
             <p>
                 <h3>Functionality</h3>
-                This endpoint returns an array of all articles available on the site. Each article object contains fields such as the author, title, topic, and votes. The route accepts the GET method and supports optional queries: 'sort_by', 'order', and 'topic'.<br>
+                This endpoint returns an array of all articles available on the site. Each article object contains fields such as the author, title, topic, and votes. The route accepts the GET method and supports optional queries: 'sort_by', 'order', and 'topic'. In order to pass the queries, you must add a '?', followed by the query and query value, to the end of your URL. E.g., to sort the articles by title in alphabetical order, the endpoint would be "/api/articles?sort_by=title&order=ASC".<br>
                 <ul>
                     <li>'sort_by' defaults to 'created_at' and allows sorting by any valid column.</li>
                     <li>'order' sets the sorting direction to ascending or descending and defaults to descending.</li>

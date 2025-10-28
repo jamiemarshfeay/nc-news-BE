@@ -13,7 +13,7 @@
     </header>
     <main>
         <section>
-            <h2>Valid Endpoints</h2>
+            <h2 class="sub-heading">Valid Endpoints</h2>
             <nav>
                 <ul>
                     <li><a href="#topics-endpoint">/api/topics</a></li>
@@ -27,12 +27,12 @@
             
         </section>
         <section id="topics-endpoint">
-            <h2>/api/topics</h2>
+            <h2 class="sub-heading">/api/topics</h2>
             <p> 
-                <h3>Functionality</h3>
+                <h3 class="sub-heading">Functionality</h3>
                 This endpoint returns an array of all topics available on the site. Each topic object includes a short description, an image_url, and a slug (topic name), which can be used to filter articles by topic in other endpoints. The route accepts the GET method and does not take any queries or a request body.<br>
 
-                <h3>Error Guidance and Example Responses</h3>
+                <h3 class="sub-heading">Error Guidance and Example Responses</h3>
                 <ul>
                     <li>If the endpoint path is entered incorrectly, the server will respond with a 404 "Path not found" error.</li>
                     <li>On success, the response status will be 200 "OK".</li>
@@ -40,20 +40,19 @@
 
                 Example response (GET):<br><br>
 
-                <pre>
+                <pre class="json-response">
                 {
                   "topics": [
                     { "slug": "coding", "description": "Code is love, code is life" },
                     ...,
                   ]
-                }
-                </pre>
+                }</pre>              
             </p>
         </section>
         <section id="articles-endpoint">
-            <h2>/api/articles</h2>
+            <h2 class="sub-heading">/api/articles</h2>
             <p>
-                <h3>Functionality</h3>
+                <h3 class="sub-heading">Functionality</h3>
                 This endpoint returns an array of all articles available on the site. Each article object contains fields such as the author, title, topic, and votes. The route accepts the GET method and supports optional queries: 'sort_by', 'order', and 'topic'. In order to pass the queries, you must add a '?', followed by the query and query value, to the end of your URL. E.g., to sort the articles by title in alphabetical order, the endpoint would be "/api/articles?sort_by=title&order=ASC".<br>
                 <ul>
                     <li>'sort_by' defaults to 'created_at' and allows sorting by any valid column.</li>
@@ -61,7 +60,7 @@
                     <li>'topic' filters the articles by the specified topic value.</li>
                 </ul>
 
-                <h3>Error Guidance and Example Responses</h3>
+                <h3 class="sub-heading">Error Guidance and Example Responses</h3>
                 <ul>
                     <li>If the endpoint path is entered incorrectly, the response will be 404 "Path not found".</li>
                     <li>If any invalid query values are passed, the response will be 400 "You have made a bad request".</li>
@@ -70,7 +69,7 @@
 
                 Example response (GET):<br><br>
 
-                <pre>
+                <pre class="json-response">
                 {
                   "articles": [
                     { 
@@ -85,17 +84,16 @@
                     },
                     ...,
                   ]
-                }
-                </pre>
+                }</pre>
             </p>
         </section>
         <section id="article-id-endpoint">
-            <h2>/api/articles/:article_id</h2>
+            <h2 class="sub-heading">/api/articles/:article_id</h2>
             <p>
-                <h3>Functionality</h3>
+                <h3 class="sub-heading">Functionality</h3>
                 Using the GET method, this endpoint returns a single article object specified by the article_id path parameter. It also supports the PATCH method, which allows you to update the vote count for that article and returns the updated object.<br>
 
-                <h3>Error Guidance and Example Responses</h3>
+                <h3 class="sub-heading">Error Guidance and Example Responses</h3>
                 <ul>
                     <li>If the base path is entered incorrectly, the response will be 404 "Path not found".</li>
                     <li>Providing an invalid article_id (e.g. non-numeric) will return 400 "Bad request".</li>
@@ -106,7 +104,7 @@
 
                 Example response (GET):<br><br>
 
-                <pre>
+                <pre class="json-response">
                 {
                   "article": { 
                         "article_id": 1,
@@ -119,14 +117,13 @@
                         "article_img_url": "https...",
                         "comment_count": 8
                   }
-                }
-                </pre>
+                }</pre>
 
                 PATCHing requires a request body of object form - an example of which is: { inc_votes: 36 }<br><br>
 
                 Example response (PATCH):<br><br>
 
-                <pre>
+                <pre class="json-response">
                 {
                   "article": { 
                         "article_id": 1,
@@ -139,17 +136,16 @@
                         "article_img_url": "https...",
                         "comment_count": 8
                   }
-                }
-                </pre>
+                }</pre>            
             </p>
         </section>
         <section id="article-comments-endpoint">
-            <h2>/api/articles/:article_id/comments</h2>
+            <h2 class="sub-heading">/api/articles/:article_id/comments</h2>
             <p>
-                <h3>Functionality</h3>
+                <h3 class="sub-heading">Functionality</h3>
                 Using the GET method, this endpoint retrieves all comments related to the specified article_id. The POST method allows you to submit a new comment for that article, returning the newly created comment object.<br>
 
-                <h3>Error Guidance and Example Responses</h3>
+                <h3 class="sub-heading">Error Guidance and Example Responses</h3>
                 <ul>
                     <li>If the base path is incorrect, the response will be 404 "Path not found".</li>
                     <li>If an invalid article_id is supplied (e.g. not a number), the response will be 400 "Bad request".</li>
@@ -161,7 +157,7 @@
 
                 Example response (GET):<br><br>
 
-                <pre>
+                <pre class="json-response">
                 {
                   "comments": [
                     { 
@@ -174,22 +170,20 @@
                     },
                     ...,
                   ]
-                }
-                </pre>
+                }</pre>
                 
                 <br>
                 POSTing requires a request body of object form - an example of which is:<br><br>
-                <pre>
+                <pre class="json-response">
                 {
                     "username": "icellusedkars",
                     "body": "This is the return of the space cowboy",
-                }
-                </pre>
+                }</pre>  
                 <br>
 
                 Example response (POST):<br><br>
 
-                <pre>
+                <pre class="json-response">
                 {
                   "comment": {
                         "comment_id": ...,
@@ -199,17 +193,16 @@
                         "body": "This is the return of the space cowboy",
                         "article_id": ...
                   }
-                }
-                </pre>
+                }</pre> 
             </p>
         </section>
         <section id="comment-id-endpoint">
-            <h2>/api/comments/:comment_id</h2>
+            <h2 class="sub-heading">/api/comments/:comment_id</h2>
             <p>
-                <h3>Functionality</h3>
+                <h3 class="sub-heading">Functionality</h3>
                 This endpoint accepts the DELETE method and removes the comment matching the provided comment_id.<br>
 
-                <h3>Error Guidance and Example Responses</h3>
+                <h3 class="sub-heading">Error Guidance and Example Responses</h3>
                 <ul>
                     <li>If the base path is incorrect, the response will be 404 "Path not found".</li>
                     <li>If the comment_id is invalid (e.g. not an integer), the server will respond with 400 "Bad request".</li>
@@ -219,12 +212,12 @@
             </p>
         </section>
         <section id="users-endpoint">
-            <h2>/api/users</h2>
+            <h2 class="sub-heading">/api/users</h2>
             <p>
-                <h3>Functionality</h3>
+                <h3 class="sub-heading">Functionality</h3>
                 This endpoint returns an array of all users. Each user object includes a username, name, and avatar_url. The route accepts the GET method and does not take any queries or a request body.<br>
 
-                <h3>Error Guidance and Example Responses</h3>
+                <h3 class="sub-heading">Error Guidance and Example Responses</h3>
                 <ul>
                     <li>If the endpoint path is entered incorrectly, the response will be 404 "Path not found".</li>
                     <li>On success, the server will return 200 "OK".</li>
@@ -232,7 +225,7 @@
 
                 Example response (GET):<br><br>
 
-                <pre>
+                <pre class="json-response">
                 {
                   "users": [
                     { 
@@ -242,13 +235,12 @@
                     },
                     ...,
                   ]
-                }
-                </pre>
+                }</pre>
             </p>
         </section>
     </main>
     <footer>
-        <h2>Extras</h2>
+        <h2 class="sub-heading">Extras</h2>
         <p>
             If you'd like to test the data yourself, visit this <a href="https://github.com/jamiemarshfeay/nc-news-BE/">NC News Repository</a> and follow the instructions within the README file.
         </p>

@@ -13,7 +13,7 @@
     </header>
     <main>
         <section>
-            <h2 class="sub-heading">Valid Endpoints</h2>
+            <h2 class="sub-heading" class="section-sub-heading">Valid Endpoints</h2>
             <nav>
                 <ul>
                     <li><a href="#topics-endpoint">/api/topics</a></li>
@@ -27,7 +27,7 @@
             
         </section>
         <section id="topics-endpoint">
-            <h2 class="sub-heading">/api/topics</h2>
+            <h2 class="sub-heading" class="section-sub-heading">/api/topics</h2>
             <p> 
                 <h3 class="sub-heading">Functionality</h3>
                 This endpoint returns an array of all topics available on the site. Each topic object includes a short description, an image_url, and a slug (topic name), which can be used to filter articles by topic in other endpoints. The route accepts the GET method and does not take any queries or a request body.<br>
@@ -40,17 +40,17 @@
 
                 Example response (GET):<br><br>
 
-                <pre class="json-response">
-                {
-                  "topics": [
-                    { "slug": "coding", "description": "Code is love, code is life" },
-                    ...,
-                  ]
-                }</pre>              
+                <pre class="json-response" id="get-api-topics-json">
+{
+    "topics": [
+    { "slug": "coding", "description": "Code is love, code is life" },
+    ...,
+    ]
+}               </pre>              
             </p>
         </section>
         <section id="articles-endpoint">
-            <h2 class="sub-heading">/api/articles</h2>
+            <h2 class="sub-heading" class="section-sub-heading">/api/articles</h2>
             <p>
                 <h3 class="sub-heading">Functionality</h3>
                 This endpoint returns an array of all articles available on the site. Each article object contains fields such as the author, title, topic, and votes. The route accepts the GET method and supports optional queries: 'sort_by', 'order', and 'topic'. In order to pass the queries, you must add a '?', followed by the query and query value, to the end of your URL. E.g., to sort the articles by title in alphabetical order, the endpoint would be "/api/articles?sort_by=title&order=ASC".<br>
@@ -69,26 +69,26 @@
 
                 Example response (GET):<br><br>
 
-                <pre class="json-response">
-                {
-                  "articles": [
-                    { 
-                        "author": "grumpy19",
-                        "title": "The Notorious MSGs Unlikely Formula For Success",
-                        "article_id": 34,
-                        "topic": "cooking",
-                        "created_at": "2020-11-22T11:13:00.000Z",
-                        "votes": 0,
-                        "article_img_url": "https...",
-                        "comment_count": 11
-                    },
-                    ...,
-                  ]
-                }</pre>
+                <pre class="json-response" id="get-api-articles-json">
+{
+    "articles": [
+    { 
+        "author": "grumpy19",
+        "title": "The Notorious MSGs Unlikely Formula For Success",
+        "article_id": 34,
+        "topic": "cooking",
+        "created_at": "2020-11-22T11:13:00.000Z",
+        "votes": 0,
+        "article_img_url": "https...",
+        "comment_count": 11
+    },
+    ...,
+    ]
+}               </pre>
             </p>
         </section>
         <section id="article-id-endpoint">
-            <h2 class="sub-heading">/api/articles/:article_id</h2>
+            <h2 class="sub-heading" class="section-sub-heading">/api/articles/:article_id</h2>
             <p>
                 <h3 class="sub-heading">Functionality</h3>
                 Using the GET method, this endpoint returns a single article object specified by the article_id path parameter. It also supports the PATCH method, which allows you to update the vote count for that article and returns the updated object.<br>
@@ -104,43 +104,44 @@
 
                 Example response (GET):<br><br>
 
-                <pre class="json-response">
-                {
-                  "article": { 
-                        "article_id": 1,
-                        "title": "Running a Node App",
-                        "topic": "coding",
-                        "author": "jessjelly",
-                        "body": "...",
-                        "created_at": "2020-11-07T06:03:00.000Z",
-                        "votes": 0,
-                        "article_img_url": "https...",
-                        "comment_count": 8
-                  }
-                }</pre>
+                <pre class="json-response" id="get-api-articles-articleid-json">
+{
+    "article": { 
+        "article_id": 1,
+        "title": "Running a Node App",
+        "topic": "coding",
+        "author": "jessjelly",
+        "body": "...",
+        "created_at": "2020-11-07T06:03:00.000Z",
+        "votes": 0,
+        "article_img_url": "https...",
+        "comment_count": 8
+    }
+}               </pre>
+                <br><br>
 
                 PATCHing requires a request body of object form - an example of which is: { inc_votes: 36 }<br><br>
 
                 Example response (PATCH):<br><br>
 
-                <pre class="json-response">
-                {
-                  "article": { 
-                        "article_id": 1,
-                        "title": "Running a Node App",
-                        "topic": "coding",
-                        "author": "jessjelly",
-                        "body": "...",
-                        "created_at": "2020-11-07T06:03:00.000Z",
-                        "votes": 36,
-                        "article_img_url": "https...",
-                        "comment_count": 8
-                  }
-                }</pre>            
+                <pre class="json-response" id="patch-api-articles-articleid-json">
+{
+    "article": { 
+        "article_id": 1,
+        "title": "Running a Node App",
+        "topic": "coding",
+        "author": "jessjelly",
+        "body": "...",
+        "created_at": "2020-11-07T06:03:00.000Z",
+        "votes": 36,
+        "article_img_url": "https...",
+        "comment_count": 8
+    }
+}               </pre>            
             </p>
         </section>
         <section id="article-comments-endpoint">
-            <h2 class="sub-heading">/api/articles/:article_id/comments</h2>
+            <h2 class="sub-heading" class="section-sub-heading">/api/articles/:article_id/comments</h2>
             <p>
                 <h3 class="sub-heading">Functionality</h3>
                 Using the GET method, this endpoint retrieves all comments related to the specified article_id. The POST method allows you to submit a new comment for that article, returning the newly created comment object.<br>
@@ -157,47 +158,48 @@
 
                 Example response (GET):<br><br>
 
-                <pre class="json-response">
-                {
-                  "comments": [
-                    { 
-                        "comment_id": 89,
-                        "votes": 2,
-                        "created_at": "2020-10-24T06:08:00.000Z",
-                        "author": "cooljmessy",
-                        "body": "...",
-                        "article_id": 1
-                    },
-                    ...,
-                  ]
-                }</pre>
-                
-                <br>
+                <pre class="json-response" id="get-api-articles-articleid-comments-json">
+{
+    "comments": [
+    { 
+        "comment_id": 89,
+        "votes": 2,
+        "created_at": "2020-10-24T06:08:00.000Z",
+        "author": "cooljmessy",
+        "body": "...",
+        "article_id": 1
+    },
+    ...,
+    ]
+}               </pre>
+                <br><br>
+
                 POSTing requires a request body of object form - an example of which is:<br><br>
-                <pre class="json-response">
-                {
-                    "username": "icellusedkars",
-                    "body": "This is the return of the space cowboy",
-                }</pre>  
-                <br>
+
+                <pre class="json-response" id="posting-body-comment-json">
+{
+    "username": "icellusedkars",
+    "body": "This is the return of the space cowboy",
+}               </pre>  
+                <br><br>
 
                 Example response (POST):<br><br>
 
-                <pre class="json-response">
-                {
-                  "comment": {
-                        "comment_id": ...,
-                        "votes": 0,
-                        "created_at": ...,
-                        "author": "icellusedkars",
-                        "body": "This is the return of the space cowboy",
-                        "article_id": ...
-                  }
-                }</pre> 
+                <pre class="json-response" id="post-api-articles-articleid-comments-json">
+{
+    "comment": {
+        "comment_id": ...,
+        "votes": 0,
+        "created_at": ...,
+        "author": "icellusedkars",
+        "body": "This is the return of the space cowboy",
+        "article_id": ...
+    }
+}               </pre> 
             </p>
         </section>
         <section id="comment-id-endpoint">
-            <h2 class="sub-heading">/api/comments/:comment_id</h2>
+            <h2 class="sub-heading" class="section-sub-heading">/api/comments/:comment_id</h2>
             <p>
                 <h3 class="sub-heading">Functionality</h3>
                 This endpoint accepts the DELETE method and removes the comment matching the provided comment_id.<br>
@@ -212,7 +214,7 @@
             </p>
         </section>
         <section id="users-endpoint">
-            <h2 class="sub-heading">/api/users</h2>
+            <h2 class="sub-heading" class="section-sub-heading">/api/users</h2>
             <p>
                 <h3 class="sub-heading">Functionality</h3>
                 This endpoint returns an array of all users. Each user object includes a username, name, and avatar_url. The route accepts the GET method and does not take any queries or a request body.<br>
@@ -225,22 +227,22 @@
 
                 Example response (GET):<br><br>
 
-                <pre class="json-response">
-                {
-                  "users": [
-                    { 
-                        "username": "tickle122",
-                        "name": "Tom Tickle",
-                        "avatar_url": "https..."
-                    },
-                    ...,
-                  ]
-                }</pre>
+                <pre class="json-response" id="api-users-json">
+{
+    "users": [
+    { 
+        "username": "tickle122",
+        "name": "Tom Tickle",
+        "avatar_url": "https..."
+    },
+    ...,
+    ]
+}               </pre>
             </p>
         </section>
     </main>
     <footer>
-        <h2 class="sub-heading">Extras</h2>
+        <h2 class="sub-heading" class="section-sub-heading">Extras</h2>
         <p>
             If you'd like to test the data yourself, visit this <a href="https://github.com/jamiemarshfeay/nc-news-BE/">NC News Repository</a> and follow the instructions within the README file.
         </p>

@@ -24,6 +24,10 @@ app.use(express.json());
 
 app.use("/api", express.static("public"));
 
+app.get("/api", (req, res) => {
+  res.status(200).sendFile(__dirname + "/public/index.html");
+});
+
 app.get("/api/topics", getTopics);
 
 app.get("/api/articles", getArticles);

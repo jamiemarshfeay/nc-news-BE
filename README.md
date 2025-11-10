@@ -1,9 +1,9 @@
 # NC News Application
 
 Hosted API:  
-https://nc-news-application-7t81.onrender.com  
+https://nc-news-application-7t81.onrender.com/api  
 
-> Note: Visiting the base URL will return a 404 ('Path not found') by design. Please use one of the endpoints listed below.
+> Note: Visiting the base URL (https...onrender.com) will return a 404 ('Path not found') by design. Please use one of the endpoints listed below.
 
 ---
 
@@ -91,6 +91,7 @@ The server will listen on **port 9090** by default. You can test the endpoints i
 
 | Method | Endpoint | Description |
 |--------|-----------|--------------|
+| GET | /api | Loads the API documentation |
 | GET | /api/topics | Returns all topics |
 | GET | /api/articles | Returns all articles |
 | GET | /api/articles/:article_id | Returns a single article by ID |

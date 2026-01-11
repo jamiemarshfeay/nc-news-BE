@@ -13,13 +13,13 @@ This project is a **RESTful API** for a news application. It provides programmat
 
 ---
 
-### Minimum Versions Required
+### Technology Requirements
 
 Before running the project locally, ensure you have the following installed:  
 - **Node.js:** v24.9.0  
 - **PostgreSQL:** v16.10  
 
-You can confirm your versions with:  
+This project was developed and tested using the versions above. It may work with older versions, but this hasn't been explicitly tested. You can confirm your versions with:  
 `node -v`  
 `psql --version`
 
